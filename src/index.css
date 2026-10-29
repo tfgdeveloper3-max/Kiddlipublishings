@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "Pangolin";
+    src: url("/fonts/Pangolin-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url("/fonts/Nunito-Regular.woff2") format("woff2"),
+        url("/fonts/Nunito-Regular.woff") format("woff");
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url("/fonts/Nunito-Medium.woff2") format("woff2"),
+        url("/fonts/Nunito-Medium.woff") format("woff");
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url("/fonts/Nunito-SemiBold.woff2") format("woff2"),
+        url("/fonts/Nunito-SemiBold.woff") format("woff");
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url("/fonts/Nunito-Bold.woff2") format("woff2"),
+        url("/fonts/Nunito-Bold.woff") format("woff");
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url("/fonts/Nunito-ExtraBold.woff2") format("woff2"),
+        url("/fonts/Nunito-ExtraBold.woff") format("woff");
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url("/fonts/Nunito-Black.woff2") format("woff2"),
+        url("/fonts/Nunito-Black.woff") format("woff");
+    font-weight: 900;
+    font-display: swap;
+}
+
+@theme {
+    --font-heading: "Nunito", ui-sans-serif, system-ui, sans-serif;
+    --font-body: "Pangolin", "Nunito", ui-sans-serif, system-ui, sans-serif;
+
+    --color-brand-light: #a157ff;
+    --color-brand-dark: #6b34c4;
+    --color-brand: #7b3fe4;
+    --color-accent: #ffd335;
+    --color-ink: #1e1e1e;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: var(--font-body);
+        color: var(--color-ink);
+        -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-heading);
+    }
+}
+
+@keyframes thought-float {
+
+    0%,
+    100% {
+        translate: 0 0;
+        rotate: 0deg;
+    }
+
+    33% {
+        translate: 0 -7px;
+        rotate: -0.6deg;
+    }
+
+    66% {
+        translate: 0 -3px;
+        rotate: 0.6deg;
+    }
+}
+
+.thought-float {
+    animation: thought-float 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .thought-float {
+        animation: none;
+    }
+}
