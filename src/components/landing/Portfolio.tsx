@@ -16,7 +16,7 @@ export interface Cover {
     alt: string;
 }
 
-const X = [0, 0.6, 1.095, 1.54, 1.9]; // horizontal offset, in cover widths
+const X = [0, 0.6, 1.095, 1.54, 1.9]; 
 const SCALE = [1, 0.885, 0.775, 0.62, 0.5];
 const OPACITY = [1, 1, 1, 1, 0];
 
@@ -50,7 +50,7 @@ interface PortfolioProps {
 
 export default function Portfolio({
     label = "Portfolio",
-    title = "Lorem Ipsum is simply dummy text of the printing",
+    title = "Explore Our Magical Collection of Published Children's Books",
     covers = defaultCovers,
     decorSrc = "/images/Portfolio/Portfolio-girl.png",
     interval = 2.2,

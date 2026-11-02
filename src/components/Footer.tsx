@@ -162,11 +162,10 @@ function Newsletter({ onSubscribe }: { onSubscribe?: (email: string) => void }) 
                 Our Newsletter
             </span>
             <h2 className="mx-auto mt-1 max-w-[680px] font-heading text-[24px] font-extrabold leading-[1.2] text-white sm:text-[28px] lg:text-[32px]">
-                Sign Up Now To Receive 25% Off On Order.
+                Sign Up Now To Receive 25% Off Your First Kiddli Publishings Order!
             </h2>
             <p className="mx-auto mt-4 max-w-[440px] font-body text-[13px] leading-[1.7] text-white/90">
-                Sollicitudin tempor id eu nisl nunc. Non curabitur gravida arcu ac tortor dignissim convallis. Suspendisse sed
-                nisi lacus sed viverra tellus habitasse.
+                Join our cozy community of readers and creators to get magical stories, special discounts, and updates delivered straight to your inbox.
             </p>
 
             <div className="mx-auto mt-6 max-w-[640px]">
@@ -181,7 +180,7 @@ function Newsletter({ onSubscribe }: { onSubscribe?: (email: string) => void }) 
                             role="status"
                         >
                             <span className="grid h-6 w-6 place-items-center rounded-full bg-accent text-ink">✓</span>
-                            You’re subscribed! Check your inbox for the 25% code.
+                            You're subscribed! Check your inbox for the 25% code.
                         </motion.p>
                     ) : (
                         <motion.form
@@ -210,7 +209,7 @@ function Newsletter({ onSubscribe }: { onSubscribe?: (email: string) => void }) 
                                 className="h-[44px] w-full rounded-full bg-white px-6 font-body text-[14px] text-ink outline-none ring-accent placeholder:text-[#9A9A9A] focus-visible:ring-4 sm:max-w-[480px] lg:h-[40px]"
                             />
                             <AnimatedButton type="submit" variant="yellow" size="sm" className="h-[44px]! shrink-0 px-6! uppercase lg:h-[40px]!">
-                                Subscribe
+                                Subscribe →
                             </AnimatedButton>
                         </motion.form>
                     )}
@@ -263,6 +262,7 @@ export interface FooterLinkItem {
 interface FooterProps {
     logoText?: string;
     about?: string;
+    address?: string;
     phone?: string;
     email?: string;
     usefulLinks?: FooterLinkItem[];
@@ -271,15 +271,26 @@ interface FooterProps {
     onSubscribe?: (email: string) => void;
 }
 
-const lorem = (n: number) => Array.from({ length: n }, () => ({ label: "Lorem Ipsum", href: "#" }));
-
 export default function Footer({
-    logoText = "Logo Here",
-    about = "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    logoText = "Kiddli Publishings",
+    about = "Bringing magical stories, vibrant illustrations, and valuable life lessons to children around the world.",
+    address = "123 Storybook Lane, Creative City, CP 45678",
     phone = "+00 (0) 123 456 789",
-    email = "admin@example.com",
-    usefulLinks = lorem(5),
-    serviceLinks = lorem(5),
+    email = "support@kiddlipublishings.com",
+    usefulLinks = [
+        { label: "Home", href: "#home" },
+        { label: "About Us", href: "#about" },
+        { label: "Our Books", href: "#books" },
+        { label: "Publishing Process", href: "#process" },
+        { label: "Contact Us", href: "#contact" },
+    ],
+    serviceLinks = [
+        { label: "FAQs", href: "#faqs" },
+        { label: "Shipping & Delivery", href: "#shipping" },
+        { label: "Returns & Refunds", href: "#returns" },
+        { label: "Author Submissions", href: "#submissions" },
+        { label: "Privacy Policy", href: "#privacy" },
+    ],
     socials = [
         { name: "Instagram", href: "#" },
         { name: "Facebook", href: "#" },
@@ -305,7 +316,7 @@ export default function Footer({
                         <a href="#home" className="inline-block font-heading text-[30px] font-extrabold leading-none text-white lg:text-[32px]">
                             {logoText}
                         </a>
-                        <p className="mt-5 max-w-[270px] font-body text-[14px] leading-[1.7] text-white/90">{about}</p>
+                        <p className="mt-5 max-w-[270px] font-body text-[18px] leading-[1.7] text-white/90">{about}</p>
 
                         <h3 className="mt-7 font-heading text-[18px] font-bold">Social Media</h3>
                         <ul className="mt-4 flex gap-3">
@@ -333,7 +344,7 @@ export default function Footer({
 
                     <motion.div custom={1} variants={colVariants} className="col-span-2 sm:col-span-1">
                         <h3 className="font-heading text-[18px] font-bold">Get In Touch</h3>
-                        <p className="mt-5 max-w-[200px] font-body text-[14px] leading-[1.7] text-white/90">{about}</p>
+                        <p className="mt-5 max-w-[200px] font-body text-[16px] leading-[1.7] text-white/90">{address}</p>
                         <dl className="mt-4 space-y-3 font-body text-[14px] text-white/90">
                             <div className="flex gap-6">
                                 <dt className="w-[52px]">Call Us :</dt>

@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import { EASE, Reveal, softSpring, t } from "../ui/Animated";
 
 const CLOUD = "M32.7 80.1A34.6 34.6 0 0 1 80.9 52.0A46.6 46.6 0 0 1 156.9 36.1A55.1 55.1 0 0 1 243.1 36.1A43.7 43.7 0 0 1 314.4 50.4A33.7 33.7 0 0 1 362.6 75.5A19.9 19.9 0 0 1 377.9 101.6A17.1 17.1 0 0 1 367.3 127.9A34.6 34.6 0 0 1 319.1 156.0A53.9 53.9 0 0 1 230.9 172.9A62.5 62.5 0 0 1 133.3 168.9A46.0 46.0 0 0 1 59.7 147.1A29.0 29.0 0 0 1 24.7 116.2A24.4 24.4 0 0 1 32.7 80.1Z";
 const CLOUD_INNER = "M46.8 84.5A30.8 30.8 0 0 1 90.9 61.6A42.5 42.5 0 0 1 160.6 48.7A50.5 50.5 0 0 1 239.4 48.7A39.8 39.8 0 0 1 304.8 60.3A30.2 30.2 0 0 1 348.9 80.8A16.8 16.8 0 0 1 362.9 102.0A14.2 14.2 0 0 1 353.2 123.5A30.8 30.8 0 0 1 309.1 146.4A49.2 49.2 0 0 1 228.3 160.1A57.2 57.2 0 0 1 138.9 156.8A41.8 41.8 0 0 1 71.6 139.1A25.3 25.3 0 0 1 39.5 113.9A20.0 20.0 0 0 1 46.8 84.5Z";
 const TAIL = "M58 150L52 196L96 160Z";
+
+// Cloud geometry (viewBox 400 x 210). Text safe area = top 27% .. bottom 30% of height.
+const VB_W = 400;
+const VB_H = 210;
+const SAFE_TOP = 0.25;
+const SAFE_BOTTOM = 0.27;
+const SAFE_RATIO = 1 - SAFE_TOP - SAFE_BOTTOM; // 0.48
+const BASE_RATIO = VB_H / VB_W;
 
 export interface Testimonial {
     quote: string;
@@ -16,19 +24,19 @@ export interface Testimonial {
 
 const defaultTestimonials: Testimonial[] = [
     {
-        quote: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        quote: "Kiddli Publishings has completely transformed bedtime at our house! My son asks to read his favorite book every single night, and I love the positive values it teaches.",
         name: "Renzo Eike's Mom",
         avatar: "/images/Testimonials/testimonial-1.png",
         color: "#8BB625",
     },
     {
-        quote: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        quote: "The illustrations are breathtaking, and the stories capture children's imaginations so effortlessly. It's wonderful to find books that are both educational and deeply engaging.",
         name: "Maxi Gina's Mom",
         avatar: "/images/Testimonials/testimonial-2.png",
         color: "#F26522",
     },
     {
-        quote: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        quote: "An absolute treasure for young readers! These books make wonderful gifts and have quickly become staples in our home library.",
         name: "Ines Emilia's Mom",
         avatar: "/images/Testimonials/testimonial-3.png",
         color: "#3C6178",
@@ -58,14 +66,61 @@ function Avatar({ src, name, color }: { src: string; name: string; color: string
     );
 }
 
+/**
+ * Measures how tall (relative to its width) this cloud must be for its text
+ * to fit, and reports it to the parent. The parent passes back one shared
+ * ratio so every cloud in the row ends up the same height.
+ */
+function useCloudSize(onRatio: (ratio: number) => void) {
+    const boxRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const [width, setWidth] = useState<number | null>(null);
+    const onRatioRef = useRef(onRatio);
+    onRatioRef.current = onRatio;
+
+    useLayoutEffect(() => {
+        const box = boxRef.current;
+        const content = contentRef.current;
+        if (!box || !content) return;
+
+        const update = () => {
+            const w = box.offsetWidth;
+            if (!w) return;
+            setWidth(w);
+            const needed = content.offsetHeight / SAFE_RATIO / w;
+            onRatioRef.current(Math.max(BASE_RATIO, needed));
+        };
+
+        update();
+        const ro = new ResizeObserver(update);
+        ro.observe(box);
+        ro.observe(content);
+        return () => ro.disconnect();
+    }, []);
+
+    return { boxRef, contentRef, width };
+}
+
 const cardVariants: Variants = {
     hidden: {},
     show: {},
 };
 
-function TestimonialCard({ item, index }: { item: Testimonial; index: number }) {
-    const base = 0.2 + index * 0.6; 
+function TestimonialCard({
+    item,
+    index,
+    sharedRatio,
+    onRatio,
+}: {
+    item: Testimonial;
+    index: number;
+    sharedRatio: number;
+    onRatio: (ratio: number) => void;
+}) {
+    const base = 0.2 + index * 0.6;
     const rating = item.rating ?? 5;
+    const { boxRef, contentRef, width } = useCloudSize(onRatio);
+    const height = width ? Math.ceil(width * sharedRatio) : null;
 
     return (
         <motion.figure
@@ -88,10 +143,20 @@ function TestimonialCard({ item, index }: { item: Testimonial; index: number }) 
                 className="relative"
             >
                 <div
+                    ref={boxRef}
                     className="thought-float relative aspect-[400/210] w-full transition-transform duration-500 hover:scale-[1.03]"
-                    style={{ animationDuration: `${t(3 + index * 0.4)}s`, animationDelay: `${t(base + 1.6)}s` }}
+                    style={{
+                        height: height ?? undefined,
+                        animationDuration: `${t(3 + index * 0.4)}s`,
+                        animationDelay: `${t(base + 1.6)}s`,
+                    }}
                 >
-                    <svg viewBox="0 0 400 210" className="absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
+                    <svg
+                        viewBox={`0 0 ${VB_W} ${VB_H}`}
+                        preserveAspectRatio="none"
+                        className="absolute inset-0 h-full w-full overflow-visible"
+                        aria-hidden="true"
+                    >
                         <path d={CLOUD} fill={item.color} />
                         <path d={TAIL} fill={item.color} />
                         <motion.path
@@ -100,65 +165,72 @@ function TestimonialCard({ item, index }: { item: Testimonial; index: number }) 
                             stroke="#fff"
                             strokeWidth={1.6}
                             strokeDasharray="6 5"
+                            vectorEffect="non-scaling-stroke"
                             animate={{ strokeDashoffset: [0, -22] }}
                             transition={{ duration: t(1.4), repeat: Infinity, ease: "linear" }}
                         />
                     </svg>
 
-                    <div className="absolute inset-x-[20%] top-[27%] bottom-[30%] flex flex-col items-center justify-center text-center">
-                        <div className="flex gap-[6px]" aria-label={`${rating} out of 5 stars`}>
-                            {Array.from({ length: rating }).map((_, s) => (
-                                <motion.svg
-                                    key={s}
-                                    viewBox="0 0 24 24"
-                                    className="h-[12px] w-[12px] lg:h-[13px] lg:w-[13px]"
-                                    variants={{
-                                        hidden: { scale: 0, rotate: -90 },
-                                        show: {
-                                            scale: 1,
-                                            rotate: 0,
-                                            transition: { ...softSpring(0.5, 0.5), delay: t(base + 1.1 + s * 0.1) },
-                                        },
-                                    }}
-                                >
-                                    <path d={STAR} fill="#fff" />
-                                </motion.svg>
-                            ))}
+                    <div
+                        className="absolute inset-x-[16%] flex flex-col items-center justify-center text-center"
+                        style={{ top: `${SAFE_TOP * 100}%`, bottom: `${SAFE_BOTTOM * 100}%` }}
+                    >
+                        <div ref={contentRef} className="flex flex-col items-center">
+                            <div className="flex gap-[6px]" aria-label={`${rating} out of 5 stars`}>
+                                {Array.from({ length: rating }).map((_, s) => (
+                                    <motion.svg
+                                        key={s}
+                                        viewBox="0 0 24 24"
+                                        className="h-[12px] w-[12px] lg:h-[13px] lg:w-[13px]"
+                                        variants={{
+                                            hidden: { scale: 0, rotate: -90 },
+                                            show: {
+                                                scale: 1,
+                                                rotate: 0,
+                                                transition: { ...softSpring(0.5, 0.5), delay: t(base + 1.1 + s * 0.1) },
+                                            },
+                                        }}
+                                    >
+                                        <path d={STAR} fill="#fff" />
+                                    </motion.svg>
+                                ))}
+                            </div>
+                            <motion.blockquote
+                                variants={{
+                                    hidden: { opacity: 0, y: 8 },
+                                    show: { opacity: 1, y: 0, transition: { duration: t(0.6), ease: EASE, delay: t(base + 1.3) } },
+                                }}
+                                className="m-0 mt-2 font-body text-[13px] leading-[1.6] text-white sm:text-[14px] lg:text-[clamp(13px,1.05vw,15.5px)]"
+                            >
+                                {item.quote}
+                            </motion.blockquote>
                         </div>
-                        <motion.blockquote
-                            variants={{
-                                hidden: { opacity: 0, y: 8 },
-                                show: { opacity: 1, y: 0, transition: { duration: t(0.6), ease: EASE, delay: t(base + 1.3) } },
-                            }}
-                            className="m-0 mt-2 font-body text-[13px] leading-[1.6] text-white sm:text-[14px] lg:text-[clamp(13px,1.05vw,15.5px)]"
-                        >
-                            {item.quote}
-                        </motion.blockquote>
                     </div>
                 </div>
-            </motion.div>
 
-            <div aria-hidden="true" className="pointer-events-none absolute left-[9%] top-[86%]">
-                {[
-                    { x: 22, y: 30, s: 8 },
-                    { x: 30, y: 12, s: 11 },
-                    { x: 40, y: -8, s: 14 },
-                ].map((d, k) => (
-                    <motion.span
-                        key={k}
-                        className="absolute rounded-full"
-                        style={{ left: d.x, top: d.y, width: d.s, height: d.s, backgroundColor: item.color }}
-                        variants={{
-                            hidden: { scale: 0, opacity: 0 },
-                            show: {
-                                scale: [0, 1, 1, 0],
-                                opacity: [0, 1, 1, 0],
-                                transition: { duration: t(1.6), times: [0, 0.2, 0.7, 1], ease: "easeInOut", delay: t(base + 0.3 + k * 0.15) },
-                            },
-                        }}
-                    />
-                ))}
-            </div>
+                {/* Thought dots now sit relative to the cloud, so they follow its height */}
+                <div aria-hidden="true" className="pointer-events-none absolute left-[9%] top-full">
+                    {[
+                        { x: 22, y: 0, s: 8 },
+                        { x: 30, y: -18, s: 11 },
+                        { x: 40, y: -38, s: 14 },
+                    ].map((d, k) => (
+                        <motion.span
+                            key={k}
+                            className="absolute rounded-full"
+                            style={{ left: d.x, top: d.y, width: d.s, height: d.s, backgroundColor: item.color }}
+                            variants={{
+                                hidden: { scale: 0, opacity: 0 },
+                                show: {
+                                    scale: [0, 1, 1, 0],
+                                    opacity: [0, 1, 1, 0],
+                                    transition: { duration: t(1.6), times: [0, 0.2, 0.7, 1], ease: "easeInOut", delay: t(base + 0.3 + k * 0.15) },
+                                },
+                            }}
+                        />
+                    ))}
+                </div>
+            </motion.div>
 
             <figcaption className="mt-3 flex items-center gap-3 pl-[7%]">
                 <motion.span
@@ -191,9 +263,15 @@ interface TestimonialsProps {
 
 export default function Testimonials({
     label = "Testimonials",
-    title = "Lorem Ipsum is simply dummy text of the printing",
+    title = "What Parents Are Saying About Kiddli Publishings",
     testimonials = defaultTestimonials,
 }: TestimonialsProps) {
+    const [ratios, setRatios] = useState<Record<number, number>>({});
+    const sharedRatio = Math.max(BASE_RATIO, ...Object.values(ratios));
+    const report = useCallback((i: number, ratio: number) => {
+        setRatios((prev) => (Math.abs((prev[i] ?? 0) - ratio) < 0.001 ? prev : { ...prev, [i]: ratio }));
+    }, []);
+
     return (
         <section id="testimonials" className="relative overflow-hidden bg-white">
             <div className="relative mx-auto max-w-[1360px] px-5 pb-20 pt-14 sm:px-10 lg:px-12 lg:pb-[110px] lg:pt-[72px]">
@@ -206,7 +284,7 @@ export default function Testimonials({
                     </h2>
                 </Reveal>
 
-                <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:mt-[40px] lg:grid-cols-3 lg:gap-x-[clamp(24px,2.5vw,40px)]">
+                <div className="mt-10 grid grid-cols-1 items-end gap-x-8 gap-y-12 sm:grid-cols-2 lg:mt-[40px] lg:grid-cols-3 lg:gap-x-[clamp(24px,2.5vw,40px)]">
                     {testimonials.map((item, i) => (
                         <div
                             key={i}
@@ -216,7 +294,12 @@ export default function Testimonials({
                                     : ""
                             }
                         >
-                            <TestimonialCard item={item} index={i % 3} />
+                            <TestimonialCard
+                                item={item}
+                                index={i % 3}
+                                sharedRatio={sharedRatio}
+                                onRatio={(r) => report(i, r)}
+                            />
                         </div>
                     ))}
                 </div>

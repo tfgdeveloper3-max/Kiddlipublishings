@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import AnimatedButton from "./ui/AnimatedButton";
 import { EASE, softSpring, t } from "./ui/Animated";
@@ -16,11 +16,11 @@ interface NavbarProps {
 }
 
 const defaultLinks: NavLink[] = [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
-    { label: "Services", href: "#services" },
-    { label: "Blogs", href: "#blogs" },
-    { label: "Contact", href: "#contact" },
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Services", href: "/services" },
+    { label: "Reviews", href: "/reviews" },
+    { label: "Contact", href: "/contact" },
 ];
 
 const linkVariants: Variants = {
@@ -33,7 +33,36 @@ const squiggleVariants: Variants = {
     hover: { pathLength: 1, opacity: 1, transition: { duration: t(0.4), ease: EASE } },
 };
 
-function NavItem({ link, index }: { link: NavLink; index: number }) {
+const normalizePath = (p: string) => (p.replace(/\/+$/, "") || "/").toLowerCase();
+
+function useCurrentLocation() {
+    const read = () =>
+        typeof window === "undefined"
+            ? { path: "/", hash: "" }
+            : { path: normalizePath(window.location.pathname), hash: window.location.hash };
+    const [loc, setLoc] = useState(read);
+
+    useEffect(() => {
+        const update = () => setLoc(read());
+        window.addEventListener("popstate", update);
+        window.addEventListener("hashchange", update);
+        return () => {
+            window.removeEventListener("popstate", update);
+            window.removeEventListener("hashchange", update);
+        };
+    }, []);
+
+    return loc;
+}
+
+function isLinkActive(href: string, loc: { path: string; hash: string }) {
+    if (href.startsWith("#")) return loc.hash === href;
+    const url = new URL(href, "http://x");
+    if (normalizePath(url.pathname) !== loc.path) return false;
+    return url.hash ? url.hash === loc.hash : true;
+}
+
+function NavItem({ link, index, active }: { link: NavLink; index: number; active: boolean }) {
     return (
         <motion.li
             initial={{ opacity: 0, y: -12 }}
@@ -47,7 +76,9 @@ function NavItem({ link, index }: { link: NavLink; index: number }) {
                 animate="rest"
                 whileHover="hover"
                 whileFocus="hover"
-                className="relative inline-block py-1 font-heading text-[17px] font-medium text-black transition-colors hover:text-brand focus-visible:text-brand focus-visible:outline-none"
+                aria-current={active ? "page" : undefined}
+                className={`relative inline-block py-1 font-heading text-[17px] transition-colors hover:text-brand focus-visible:text-brand focus-visible:outline-none ${active ? "font-bold text-brand" : "font-medium text-black"
+                    }`}
             >
                 {link.label}
                 <svg
@@ -62,7 +93,13 @@ function NavItem({ link, index }: { link: NavLink; index: number }) {
                         stroke="#FFD335"
                         strokeWidth={2.6}
                         strokeLinecap="round"
-                        variants={squiggleVariants}
+                        {...(active
+                            ? {
+                                initial: { pathLength: 0, opacity: 0 },
+                                animate: { pathLength: 1, opacity: 1 },
+                                transition: { duration: t(0.5), ease: EASE, delay: t(0.8 + index * 0.1) },
+                            }
+                            : { variants: squiggleVariants })}
                     />
                 </svg>
             </motion.a>
@@ -77,18 +114,35 @@ export default function Navbar({
     ctaHref = "#",
 }: NavbarProps) {
     const [open, setOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const loc = useCurrentLocation();
+
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 20);
+        onScroll();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        return () => window.removeEventListener("scroll", onScroll);
+    }, []);
+
+    useEffect(() => {
+        if (!open) return;
+        const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [open]);
 
     return (
-        <header className="absolute inset-x-0 top-0 z-30 px-4 lg:px-0">
+        <header className="fixed inset-x-0 top-0 z-50 px-4 lg:px-0">
             <motion.nav
                 initial={{ y: -110 }}
                 animate={{ y: 0 }}
                 transition={softSpring(1, 0.15)}
-                className="mx-auto flex h-[72px] w-full max-w-[1010px] items-center justify-between rounded-b-[22px] bg-white pl-6 pr-4 shadow-[0_6px_24px_rgba(60,20,120,0.12)] lg:h-[90px] lg:rounded-b-[26px] lg:pl-9 lg:pr-[18px]"
+                className={`mx-auto flex h-[72px] w-full max-w-[1010px] items-center justify-between rounded-b-[22px] bg-white pl-6 pr-4 transition-shadow duration-300 lg:h-[90px] lg:rounded-b-[26px] lg:pl-9 lg:pr-[18px] ${scrolled ? "shadow-[0_10px_30px_rgba(60,20,120,0.22)]" : "shadow-[0_6px_24px_rgba(60,20,120,0.12)]"
+                    }`}
             >
                 {/* Logo */}
                 <motion.a
-                    href="#home"
+                    href="/"
                     whileHover={{ rotate: [0, -3, 3, -1.5, 0], scale: 1.04 }}
                     transition={{ duration: t(0.6), ease: "easeInOut" }}
                     className="inline-block font-heading text-[26px] font-extrabold tracking-[-0.01em] text-brand lg:text-[32px]"
@@ -99,7 +153,7 @@ export default function Navbar({
                 {/* Desktop links */}
                 <ul className="hidden items-center gap-12 md:flex lg:gap-[52px]">
                     {links.map((link, i) => (
-                        <NavItem key={link.label} link={link} index={i} />
+                        <NavItem key={link.label} link={link} index={i} active={isLinkActive(link.href, loc)} />
                     ))}
                 </ul>
 
@@ -135,25 +189,31 @@ export default function Navbar({
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -16, scale: 0.95 }}
                         transition={{ duration: t(0.35), ease: EASE }}
-                        className="mx-auto mt-2 w-full max-w-[1010px] origin-top rounded-2xl bg-white p-4 shadow-lg md:hidden"
+                        className="mx-auto mt-2 max-h-[calc(100dvh-96px)] w-full max-w-[1010px] origin-top overflow-y-auto rounded-2xl bg-white p-4 shadow-lg md:hidden"
                     >
                         <ul className="flex flex-col">
-                            {links.map((link, i) => (
-                                <motion.li
-                                    key={link.label}
-                                    initial={{ opacity: 0, x: -16 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: t(0.35), ease: EASE, delay: t(0.05 * i) }}
-                                >
-                                    <a
-                                        href={link.href}
-                                        onClick={() => setOpen(false)}
-                                        className="block rounded-lg px-3 py-2.5 font-heading text-base font-medium text-black hover:bg-brand-light/10"
+                            {links.map((link, i) => {
+                                const active = isLinkActive(link.href, loc);
+                                return (
+                                    <motion.li
+                                        key={link.label}
+                                        initial={{ opacity: 0, x: -16 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: t(0.35), ease: EASE, delay: t(0.05 * i) }}
                                     >
-                                        {link.label}
-                                    </a>
-                                </motion.li>
-                            ))}
+                                        <a
+                                            href={link.href}
+                                            onClick={() => setOpen(false)}
+                                            aria-current={active ? "page" : undefined}
+                                            className={`flex items-center gap-2 rounded-lg px-3 py-2.5 font-heading text-base hover:bg-brand-light/10 ${active ? "bg-brand-light/10 font-bold text-brand" : "font-medium text-black"
+                                                }`}
+                                        >
+                                            {active && <span className="h-2 w-2 rounded-full bg-[#FFD335]" aria-hidden="true" />}
+                                            {link.label}
+                                        </a>
+                                    </motion.li>
+                                );
+                            })}
                         </ul>
                         <AnimatedButton href={ctaHref} variant="purple" size="sm" className="mt-3 w-full">
                             {ctaLabel}

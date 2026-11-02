@@ -40,7 +40,7 @@ interface IllustrationsProps {
 
 export default function Illustrations({
     label = "Interior Illustrations",
-    title = "Lorem Ipsum is simply dummy text of the printing",
+    title = "Peek Inside Our Whimsical Worlds and Colorful Pages",
     items = defaultIllustrations,
 }: IllustrationsProps) {
     const cols = useColumns();

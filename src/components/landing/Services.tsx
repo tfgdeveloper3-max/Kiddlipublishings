@@ -89,37 +89,37 @@ export interface ServiceItem {
     icon: ReactNode;
     color: string;
     shape: [string, string];
-    size: string; 
+    size: string;
 }
 
 const defaultServices: ServiceItem[] = [
     {
-        title: "Place Your Services Heading Here",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        title: "Creative Book Publishing",
+        description: "We turn imaginative drafts into beautifully formatted children's books designed to spark curiosity, joy, and wonder in young readers.",
         icon: <BrainGearIcon />,
         color: "#F26522",
         shape: ["62% 38% 55% 45% / 58% 48% 52% 42%", "50% 50% 60% 40% / 48% 58% 42% 52%"],
         size: "h-[120px] w-[128px] lg:h-[132px] lg:w-[140px]",
     },
     {
-        title: "Place Your Services Heading Here",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        title: "Collaborative Author Care",
+        description: "At Kiddli Publishings, we work hand-in-hand with authors to guide, polish, and support your storytelling journey every step of the way.",
         icon: <HandsIcon />,
         color: "#F8AE1A",
         shape: ["42% 58% 45% 55% / 38% 42% 58% 62%", "52% 48% 55% 45% / 46% 38% 62% 54%"],
         size: "h-[124px] w-[114px] lg:h-[136px] lg:w-[124px]",
     },
     {
-        title: "Place Your Services Heading Here",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        title: "Vibrant Story Illustration",
+        description: "Our team brings your words to life with captivating artwork, colorful characters, and visually stunning layouts children will love.",
         icon: <BulbPuzzleIcon />,
         color: "#8BB625",
         shape: ["48% 52% 42% 58% / 55% 45% 55% 45%", "56% 44% 50% 50% / 45% 55% 45% 55%"],
         size: "h-[112px] w-[122px] lg:h-[122px] lg:w-[134px]",
     },
     {
-        title: "Place Your Services Heading Here",
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's",
+        title: "Educational & Fun Content",
+        description: "We craft stories that blend valuable life lessons and foundational learning with fun adventures to help young minds grow.",
         icon: <GradCapIcon />,
         color: "#F96FA4",
         shape: ["46% 54% 42% 58% / 42% 48% 52% 58%", "54% 46% 52% 48% / 50% 42% 58% 50%"],
@@ -209,7 +209,7 @@ interface ServicesProps {
 
 export default function Services({
     label = "Services",
-    title = "Lorem Ipsum is simply dummy text of the printing",
+    title = "Bringing Children's Stories to Life with Care & Magic",
     services = defaultServices,
 }: ServicesProps) {
     return (

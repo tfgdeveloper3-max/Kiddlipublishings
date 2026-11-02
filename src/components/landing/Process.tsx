@@ -77,10 +77,30 @@ export interface ProcessStep {
 }
 
 const defaultSteps: ProcessStep[] = [
-    { title: "Heading Here", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", icon: <TelescopeIcon />, color: "#F8AE1A" },
-    { title: "Heading Here", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", icon: <GraduateIcon />, color: "#D6297A" },
-    { title: "Heading Here", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", icon: <AbacusIcon />, color: "#F96FA4" },
-    { title: "Heading Here", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", icon: <CapIcon />, color: "#8BB625" },
+    {
+        title: "1. Manuscript Discovery",
+        description: "We review heartfelt submissions and select imaginative stories that have the power to enchant, inspire, and educate children.",
+        icon: <TelescopeIcon />,
+        color: "#F8AE1A",
+    },
+    {
+        title: "2. Creative Consultation",
+        description: "Our editors and designers collaborate closely with authors to refine characters, shape the plot, and set the vision for the book.",
+        icon: <GraduateIcon />,
+        color: "#D6297A",
+    },
+    {
+        title: "3. Illustration & Layout",
+        description: "Talented artists bring the words to life with vibrant, whimsical illustrations and engaging page designs tailored for young readers.",
+        icon: <AbacusIcon />,
+        color: "#F96FA4",
+    },
+    {
+        title: "4. Publication & Joy",
+        description: "The finished book is polished, printed, and published, ready to land on bookshelves and spark smiles all around the world.",
+        icon: <CapIcon />,
+        color: "#8BB625",
+    },
 ];
 
 const STEP_GAP = 0.9;
@@ -220,7 +240,7 @@ interface ProcessProps {
 
 export default function Process({
     label = "Process",
-    title = "Lorem Ipsum is simply dummy text of the printing",
+    title = "How Kiddli Publishings Brings a Story to Life",
     steps = defaultSteps,
 }: ProcessProps) {
     const gridRef = useRef<HTMLDivElement>(null);

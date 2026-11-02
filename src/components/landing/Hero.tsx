@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import heroImage from "/images/HeroRight.png";
 import AnimatedButton from "../ui/AnimatedButton";
 import { AnimateCss, BouncyWords, Float, PopIn, Reveal, Twinkle, Wiggle, t } from "../ui/Animated";
+import Clouds from "../ui/Clouds";
 
 interface HeroProps {
     titleLine1?: string;
@@ -91,47 +92,12 @@ const PencilDoodle = () => (
     </svg>
 );
 
-const Clouds = () => (
-    <svg
-        viewBox="0 0 1440 140"
-        preserveAspectRatio="none"
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[80px] w-full sm:h-[110px] lg:h-[140px]"
-        aria-hidden="true"
-    >
-        <motion.g
-            fill="#fff"
-            fillOpacity={0.28}
-            animate={{ x: [-18, 18] }}
-            transition={{ duration: t(7), repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-        >
-            <circle cx="60" cy="152" r="80" />
-            <circle cx="330" cy="147" r="90" />
-            <circle cx="700" cy="140" r="110" />
-            <circle cx="905" cy="136" r="100" />
-            <circle cx="1220" cy="148" r="100" />
-            <circle cx="1400" cy="156" r="90" />
-        </motion.g>
-        <g fill="#fff">
-            <circle cx="25" cy="160" r="85" />
-            <circle cx="205" cy="173" r="125" />
-            <circle cx="400" cy="158" r="80" />
-            <circle cx="580" cy="171" r="125" />
-            <circle cx="820" cy="135" r="115" />
-            <circle cx="1000" cy="167" r="95" />
-            <circle cx="1145" cy="172" r="70" />
-            <circle cx="1310" cy="184" r="130" />
-            <circle cx="1440" cy="168" r="90" />
-            <rect x="0" y="122" width="1440" height="18" />
-        </g>
-    </svg>
-);
-
 export default function Hero({
-    titleLine1 = "Lorem Ipsum is simply",
-    titleStart = "dummy",
-    titleHighlight = "text industry.",
-    description = "Welcome to Studyhub where each day brings new opportunities for discovery and growth. Our vibrant community is dedicated.",
-    buttonLabel = "More About",
+    titleLine1 = "Igniting Little Imaginations",
+    titleStart = "Through Magical",
+    titleHighlight = "Stories.",
+    description = "Welcome to Kiddli Publishings, where every page turns into a new adventure for curious young minds. Our vibrant books are dedicated to inspiring a lifelong love for reading.",
+    buttonLabel = "Explore Books",
     buttonHref = "#about",
 }: HeroProps) {
     const STAGGER = 0.1;
@@ -229,7 +195,7 @@ export default function Hero({
                     </h1>
 
                     <Reveal delay={0.9}>
-                        <p className="mt-6 max-w-[clamp(470px,33vw,640px)] font-body text-[16px] leading-[1.65] text-white lg:text-[clamp(16px,1.18vw,20px)]">
+                        <p className="mt-6 max-w-[clamp(470px,33vw,640px)] font-body text-[18px] leading-[1.65] text-white lg:text-[clamp(18px,1.18vw,20px)]">
                             {description}
                         </p>
                     </Reveal>
@@ -256,7 +222,7 @@ export default function Hero({
                 </PopIn>
             </div>
 
-            <Clouds />
+            <Clouds position="bottom" />
         </section>
     );
 }

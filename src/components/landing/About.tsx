@@ -1,13 +1,10 @@
-import { useState } from "react";
-import { motion, type Variants } from "framer-motion";
-import book1 from "/images/About-1.png";
-import book2 from "/images/About-2.png";
-import book3 from "/images/About-3.png";
+import { motion } from "framer-motion";
+import mockupImg from "/images/About-mockup.png";
 import bagImg from "/images/AboutBag.png";
 import pencilImg from "/images/AboutPencil.png";
 import AnimatedButton from "../ui/AnimatedButton";
 import Clouds from "../ui/Clouds";
-import { AnimateCss, EASE, Float, PopIn, Reveal, softSpring, t } from "../ui/Animated";
+import { AnimateCss, EASE, Float, PopIn, Reveal, t } from "../ui/Animated";
 
 const BulbIcon = () => (
     <svg viewBox="0 0 28 28" fill="none" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full" aria-hidden="true">
@@ -45,91 +42,14 @@ const Rainbow = () => (
     </svg>
 );
 
-export interface BookCover {
-    src: string;
-    alt: string;
-}
-
-const defaultBooks: BookCover[] = [
-    { src: book1, alt: "Mouse Trap book cover" },
-    { src: book2, alt: "Lil' Marisa finds a New Friend book cover" },
-    { src: book3, alt: "Kason the Kind Lion Prince book cover" },
-];
-
-const slots = [
-    { left: "0%", top: "0%" },
-    { left: "22.8%", top: "17.6%" },
-    { left: "45.9%", top: "35.3%" },
-];
-
-const bookVariants: Variants = {
-    hidden: (i: number) => ({
-        opacity: 0,
-        x: 160,
-        y: -90,
-        rotate: 16 - i * 10,
-        scale: 0.8,
-    }),
-    show: (i: number) => ({
-        opacity: 1,
-        x: 0,
-        y: 0,
-        rotate: 0,
-        scale: 1,
-        transition: {
-            ...softSpring(1.1, 0.25),
-            opacity: { duration: t(0.4), delay: t(0.3 + i * 0.6) },
-            delay: t(0.3 + i * 0.6),
-        },
-    }),
-};
-
-function BookStack({ books }: { books: BookCover[] }) {
-    const [hovered, setHovered] = useState<number | null>(null);
-
-    return (
-        <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
-            className="relative mx-auto aspect-[578/444] w-full max-w-[460px] sm:max-w-[540px] lg:mx-0 lg:max-w-[570px] lg:justify-self-end"
-        >
-            {books.slice(0, 3).map((book, i) => (
-                <motion.div
-                    key={book.src}
-                    custom={i}
-                    variants={bookVariants}
-                    className="absolute w-[54%]"
-                    style={{ ...slots[i], zIndex: hovered === i ? 10 : i + 1 }}
-                >
-                    <Float distance={6} duration={3.6} delay={1.6 + i * 0.5}>
-                        <motion.img
-                            src={book.src}
-                            alt={book.alt}
-                            width={640}
-                            height={624}
-                            draggable={false}
-                            onHoverStart={() => setHovered(i)}
-                            onHoverEnd={() => setHovered(null)}
-                            style={{ rotateY: -12, rotateX: 4, transformPerspective: 1100 }}
-                            whileHover={{ y: -14, scale: 1.05, rotateY: -3, rotateX: 0 }}
-                            transition={softSpring(0.6, 0.3)}
-                            className="block h-auto w-full select-none rounded-[3px] shadow-[3px_3px_0_#F4EFE6,6px_6px_0_#E3D9C6,18px_22px_30px_rgba(40,10,90,0.35)]"
-                        />
-                    </Float>
-                </motion.div>
-            ))}
-        </motion.div>
-    );
-}
-
 interface AboutProps {
     label?: string;
     title?: string;
     description?: string;
     buttonLabel?: string;
     buttonHref?: string;
-    books?: BookCover[];
+    image?: string;
+    imageAlt?: string;
 }
 
 export default function About({
@@ -138,7 +58,8 @@ export default function About({
     description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
     buttonLabel = "More About",
     buttonHref = "#about",
-    books = defaultBooks,
+    image = mockupImg,
+    imageAlt = "Robby the Rabbit and All You Need Is a Coloring Book, two Kiddli Publishings books",
 }: AboutProps) {
     return (
         <section id="about" className="relative isolate overflow-hidden bg-gradient-to-b from-brand-light to-brand-dark">
@@ -181,7 +102,7 @@ export default function About({
                 </AnimateCss>
             </div>
 
-            <div className="relative mx-auto grid max-w-[1680px] items-center gap-14 px-6 pb-[140px] pt-[120px] sm:px-10 sm:pb-[170px] sm:pt-[150px] lg:min-h-[clamp(820px,60vw,1000px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:content-center lg:gap-8 lg:px-12 lg:pb-[170px] lg:pt-[160px] xl:pl-[9.2vw] xl:pr-[5vw]">
+            <div className="relative mx-auto grid max-w-[1680px] items-center gap-14 px-6 pb-[130px] pt-[90px] sm:px-10 sm:pb-[160px] sm:pt-[110px] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.25fr)] lg:gap-6 lg:px-12 lg:pb-[200px] lg:pt-[120px] xl:pl-[6.5vw] xl:pr-[3vw]">
                 <div className="max-w-[640px]">
                     <Reveal from="right">
                         <div className="flex items-center gap-2">
@@ -215,7 +136,26 @@ export default function About({
                     </PopIn>
                 </div>
 
-                <BookStack books={books} />
+                <motion.div
+                    initial={{ opacity: 0, x: 120, y: -60, rotate: 8, scale: 0.85 }}
+                    whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
+                    viewport={{ once: true, amount: 0.35 }}
+                    transition={{ duration: t(1), ease: EASE, delay: t(0.3) }}
+                    className="relative mx-auto w-full max-w-[620px] sm:max-w-[760px] lg:mx-0 lg:max-w-[960px] lg:justify-self-end lg:scale-110 xl:scale-[1.15]"
+                >
+                    <Float distance={10} duration={4} delay={1.4}>
+                        <motion.img
+                            src={image}
+                            alt={imageAlt}
+                            width={2250}
+                            height={1500}
+                            draggable={false}
+                            whileHover={{ scale: 1.04, rotate: -1.5 }}
+                            transition={{ type: "spring", stiffness: 220, damping: 18 }}
+                            className="block h-auto w-full select-none"
+                        />
+                    </Float>
+                </motion.div>
             </div>
 
             <Clouds position="bottom" />
