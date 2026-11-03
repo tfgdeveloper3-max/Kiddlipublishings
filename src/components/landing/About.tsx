@@ -54,8 +54,8 @@ interface AboutProps {
 
 export default function About({
     label = "About Book",
-    title = "Discover Our Mission for Studykids Academy",
-    description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    title = "Discover Our Mission for Kiddli Publishings",
+    description = "At Kiddli Publishings, we believe that every child deserves stories that not only entertain but also nurture their hearts and minds. Our mission is to publish heartwarming, beautifully illustrated books that encourage kindness, confidence, and a lifelong joy of reading. Every title we create is carefully crafted to spark meaningful conversations between children and the adults who guide them. ",
     buttonLabel = "More About",
     buttonHref = "#about",
     image = mockupImg,
