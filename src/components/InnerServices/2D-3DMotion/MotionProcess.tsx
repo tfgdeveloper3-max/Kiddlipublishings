@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { ClapperIcon, Cube3DIcon, StoryboardIcon, WandIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We map out the storyboard, camera angles, voiceover cues, and timing to create an initial animated pre-visualization script.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <StoryboardIcon />,
     },
     {
         title: "Asset Rigging & Modeling",
         description:
             "Our animators prepare 2D illustration layers for puppet rigging or model 3D character assets to ensure smooth, natural movements.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <Cube3DIcon />,
     },
     {
         title: "Animation & Visual Effects",
         description:
             "We animate character expressions, key action sequences, background depth, and particle effects to bring full vibrancy to the scene.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <WandIcon />,
     },
     {
         title: "Audio Integration & Final Render",
         description:
             "We sync voice narration, sound effects, and background music before rendering high-definition video files ready for launch.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <ClapperIcon />,
     },
 ];
 

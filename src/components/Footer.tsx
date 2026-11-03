@@ -1,8 +1,10 @@
 import { useState, type FormEvent, type ReactNode } from "react";
+import Logo from "/images/footer-logo.png";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import AnimatedButton from "./ui/AnimatedButton";
 import Clouds from "./ui/Clouds";
 import { EASE, softSpring, t } from "./ui/Animated";
+import { Link } from "react-router-dom";
 
 const SPARKLE = "M12 0C13 7 17 11 24 12 17 13 13 17 12 24 11 17 7 13 0 12 7 11 11 7 12 0z";
 
@@ -236,20 +238,16 @@ const colVariants: Variants = {
 function FooterLink({ href, children }: { href: string; children: ReactNode }) {
     return (
         <li>
-            <motion.a
-                href={href}
-                initial="rest"
-                animate="rest"
-                whileHover="hover"
-                className="group inline-flex items-center font-body text-[14px] text-white/90 transition-colors hover:text-accent"
-            >
-                <motion.span
-                    className="mr-0 inline-block h-[6px] w-0 rounded-full bg-accent"
-                    variants={{ rest: { width: 0, marginRight: 0 }, hover: { width: 6, marginRight: 8 } }}
-                    transition={{ duration: t(0.25) }}
-                />
-                {children}
-            </motion.a>
+            <Link to={href} className="group inline-flex items-center font-body text-[14px] text-white/90 transition-colors hover:text-accent">
+                <motion.span initial="rest" animate="rest" whileHover="hover" className="inline-flex items-center">
+                    <motion.span
+                        className="mr-0 inline-block h-[6px] w-0 rounded-full bg-accent"
+                        variants={{ rest: { width: 0, marginRight: 0 }, hover: { width: 6, marginRight: 8 } }}
+                        transition={{ duration: t(0.25) }}
+                    />
+                    {children}
+                </motion.span>
+            </Link>
         </li>
     );
 }
@@ -260,7 +258,6 @@ export interface FooterLinkItem {
 }
 
 interface FooterProps {
-    logoText?: string;
     about?: string;
     address?: string;
     phone?: string;
@@ -272,24 +269,21 @@ interface FooterProps {
 }
 
 export default function Footer({
-    logoText = "Kiddli Publishings",
     about = "Bringing magical stories, vibrant illustrations, and valuable life lessons to children around the world.",
     address = "123 Storybook Lane, Creative City, CP 45678",
     phone = "+00 (0) 123 456 789",
     email = "support@kiddlipublishings.com",
     usefulLinks = [
-        { label: "Home", href: "#home" },
-        { label: "About Us", href: "#about" },
-        { label: "Our Books", href: "#books" },
-        { label: "Publishing Process", href: "#process" },
-        { label: "Contact Us", href: "#contact" },
+        { label: "Home", href: "/" },
+        { label: "About Us", href: "/about" },
+        { label: "Services", href: "/services" },
+        { label: "Reviews", href: "/reviews" },
+        { label: "Contact Us", href: "/contact" },
     ],
     serviceLinks = [
-        { label: "FAQs", href: "#faqs" },
-        { label: "Shipping & Delivery", href: "#shipping" },
-        { label: "Returns & Refunds", href: "#returns" },
-        { label: "Author Submissions", href: "#submissions" },
-        { label: "Privacy Policy", href: "#privacy" },
+        { label: "Privacy Policy", href: "/privacy-policy" },
+        { label: "Terms & Conditions", href: "/terms-and-conditions" },
+        { label: "Refund Policy", href: "/refund-policy" },
     ],
     socials = [
         { name: "Instagram", href: "#" },
@@ -313,9 +307,16 @@ export default function Footer({
                     className="relative mt-16 grid grid-cols-2 gap-x-6 gap-y-10 pb-12 sm:grid-cols-2 sm:gap-x-8 lg:mt-[84px] lg:grid-cols-[304fr_234fr_180fr_150fr] lg:gap-x-0 lg:pb-[100px]"
                 >
                     <motion.div custom={0} variants={colVariants} className="col-span-2 sm:col-span-1 lg:pr-10">
-                        <a href="#home" className="inline-block font-heading text-[30px] font-extrabold leading-none text-white lg:text-[32px]">
-                            {logoText}
-                        </a>
+                        <Link to="/" aria-label="Kiddli Publishing – Home" className="inline-block">
+                            <motion.img
+                                src={Logo}
+                                alt="Kiddli Publishing"
+                                whileHover={{ y: -4, rotate: [0, -2, 2, 0] }}
+                                transition={{ duration: t(0.5), ease: "easeInOut" }}
+                                className="h-[70px] w-auto select-none object-contain sm:h-[76px] lg:h-[90px]"
+                                draggable={false}
+                            />
+                        </Link>
                         <p className="mt-5 max-w-[270px] font-body text-[18px] leading-[1.7] text-white/90">{about}</p>
 
                         <h3 className="mt-7 font-heading text-[18px] font-bold">Social Media</h3>
@@ -389,7 +390,7 @@ export default function Footer({
                     </motion.div>
 
                     <motion.div custom={3} variants={colVariants}>
-                        <h3 className="font-heading text-[18px] font-bold">Customer Services</h3>
+                        <h3 className="font-heading text-[18px] font-bold">Policies</h3>
                         <ul className="mt-5 space-y-3">
                             {serviceLinks.map((l, i) => (
                                 <FooterLink key={i} href={l.href}>

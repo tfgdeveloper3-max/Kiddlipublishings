@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { CoverWrapIcon, DownloadIcon, LayoutIcon, TypographyIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We pair custom typography and Title artwork with vibrant background compositions to create an irresistible front cover design.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <TypographyIcon />,
     },
     {
         title: "Full Cover Wrap Assembly",
         description:
             "Our team builds the complete print jacket, including spine width calculations, back cover copy, barcoding, and blurb layouts.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <CoverWrapIcon />,
     },
     {
         title: "Interior Page Typesetting",
         description:
             "We layout interior text with child-friendly fonts, playful page numbers, and smooth text wrapping around story illustrations.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <LayoutIcon />,
     },
     {
         title: "Print & Digital File Delivery",
         description:
             "You receive press-ready cover wraps and formatted interior files optimized for high-quality printing and eBook distribution.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <DownloadIcon />,
     },
 ];
 

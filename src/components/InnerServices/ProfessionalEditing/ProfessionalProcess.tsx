@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { RedPenIcon, ReviewIcon, SpellCheckIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,21 +103,21 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We evaluate your complete manuscript, reviewing story structure, character consistency, target reading level, and overall narrative tone.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <ReviewIcon />,
     },
     {
         title: "Developmental Editing",
         description:
             "Our editors refine pacing, strengthen dialogue, and fine-tune word choices to ensure maximum engagement for young readers.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <RedPenIcon />,
     },
     {
         title: "Line & Copyediting",
         description:
             "We perform detailed proofreading to correct grammar, spelling, punctuation, and stylistic inconsistencies throughout the manuscript.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <SpellCheckIcon />,
     },
     {
         title: "Polished Final Draft",

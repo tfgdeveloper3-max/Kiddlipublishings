@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { GradBulbIcon, LessonPlanIcon, PrintablePDFIcon, PuzzleIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We review your manuscript to extract key learning objectives, vocabulary words, and thematic concepts suitable for activity design.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <GradBulbIcon />,
     },
     {
         title: "Custom Activity & Puzzle Creation",
         description:
             "Our team designs interactive coloring sheets, crosswords, matching games, mazes, and crafts featuring your original storybook artwork.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <PuzzleIcon />,
     },
     {
         title: "Curriculum & Lesson Plan Structuring",
         description:
             "We format educator-friendly lesson plans, discussion prompts, and activity keys aligned with grade-level learning standards.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <LessonPlanIcon />,
     },
     {
         title: "Printable PDF & Digital Pack Assembly",
         description:
             "We package all materials into high-resolution, print-ready PDF files optimized for instant home, school, or digital download.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <PrintablePDFIcon />,
     },
 ];
 

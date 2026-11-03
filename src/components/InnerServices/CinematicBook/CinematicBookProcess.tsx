@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { ClapperIcon, LayersIcon, MicrophoneIcon, StoryboardIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We write a compelling trailer script and design a frame-by-frame storyboard that highlights the heart, tension, and excitement of your story.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <StoryboardIcon />,
     },
     {
         title: "Visual Layering & Motion FX",
         description:
             "Our video editors break down your storybook illustrations into multi-layered depth compositions, adding parallax motion, lighting effects, and transitions.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <LayersIcon />,
     },
     {
         title: "Voiceover & Sound Design",
         description:
             "We record professional voiceover talent and layer expressive sound effects and musical scoring to create an emotional cinematic atmosphere.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <MicrophoneIcon />,
     },
     {
         title: "Final Render & Multi-Platform Delivery",
         description:
             "You receive fully rendered, high-definition trailer video files formatted in wide, vertical, and square aspect ratios for all major media channels.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <ClapperIcon />,
     },
 ];
 

@@ -25,22 +25,22 @@ export interface Testimonial {
 const defaultTestimonials: Testimonial[] = [
     {
         quote: "What stands out most about Kiddli Publishings is their genuine dedication to children's growth. Their mission to foster kindness and imagination truly shines through in everything they do.",
-        name: "Renzo Eike's Mom",
-        avatar: "/images/Testimonials/testimonial-1.png",
+        name: "Charlotte Adams",
+        avatar: "/images/Testimonials/CharlotteAdams.png",
         color: "#8BB625",
         rating: 5,
     },
     {
         quote: "As an author, working with the team at Kiddli Publishings has been an absolute dream. Their passion for shaping young minds and supporting creators makes them truly special.",
-        name: "Maxi Gina's Mom",
-        avatar: "/images/Testimonials/testimonial-2.png",
+        name: "Oliver Bennett",
+        avatar: "/images/Testimonials/OliverBennett.png",
         color: "#F26522",
         rating: 5,
     },
     {
         quote: "You can feel the love and core values behind Kiddli Publishings in every project they take on. They care deeply about bringing meaningful, quality content to families everywhere.",
-        name: "Ines Emilia's Mom",
-        avatar: "/images/Testimonials/testimonial-3.png",
+        name: "Amelia Carter",
+        avatar: "/images/Testimonials/AmeliaCarter.png",
         color: "#3C6178",
         rating: 5,
     },

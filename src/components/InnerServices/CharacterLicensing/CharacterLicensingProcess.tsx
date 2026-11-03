@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { DealIcon, DiamondIcon, PitchDeckIcon, StyleGuideIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We evaluate your character portfolio, target demographics, and market trends to establish a clear licensing roadmap and strategy.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <DiamondIcon />,
     },
     {
         title: "Licensing Deck & Pitch Bible Creation",
         description:
             "Our team builds a professional pitch deck detailing character backstories, target audience demographics, market traction, and product line visual concepts.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <PitchDeckIcon />,
     },
     {
         title: "Category Mapping & Style Guide Setup",
         description:
             "We create technical character style guides, color palettes, and artwork packages tailored for apparel, toys, stationery, and digital media licensees.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <StyleGuideIcon />,
     },
     {
         title: "Partner Pitching & Deal Structuring",
         description:
             "We guide you through pitching to prospective licensing partners, negotiating royalty structures, and protecting your long-term brand equity.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <DealIcon />,
     },
 ];
 

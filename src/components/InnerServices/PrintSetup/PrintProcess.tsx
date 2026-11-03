@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { BarcodeIcon, GlobeIcon, PrepressGearIcon, PrinterIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We register official, unique ISBNs for all formats of your book and generate high-resolution, scannable EAN barcodes for print covers.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <BarcodeIcon />,
     },
     {
         title: "Technical Prepress Setup",
         description:
             "Our team configures exact trim sizes, bleed settings, color profiles (CMYK), and spine widths based on your chosen paper stock and binding.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <PrepressGearIcon />,
     },
     {
         title: "Printer Proof & Validation",
         description:
             "We generate press-ready files and perform detailed proof checks to guarantee crisp text, vivid illustration printing, and zero alignment errors.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <PrinterIcon />,
     },
     {
         title: "Global Network Registration",
         description:
             "Your book metadata is registered in global publishing databases, enabling worldwide cataloging for bookstores, schools, and libraries.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <GlobeIcon />,
     },
 ];
 

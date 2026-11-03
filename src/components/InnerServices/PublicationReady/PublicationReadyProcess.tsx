@@ -2,90 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
-
-const INK = "#1E1E1E";
-const PURPLE = "#6B34C4";
-const YELLOW = "#FFD335";
-const ORANGE = "#F26522";
-const SKY = "#5BB5E8";
-const PINK = "#F96FA4";
-
-const svgProps = {
-    viewBox: "0 0 64 64",
-    fill: "none",
-    stroke: INK,
-    strokeWidth: 1.8,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    className: "h-full w-full overflow-visible",
-    "aria-hidden": true,
-};
-
-const Sparkle = ({ x, y, size = 3, delay = 0 }: { x: number; y: number; size?: number; delay?: number }) => (
-    <motion.path
-        d={`M${x} ${y - size}v${size * 2}M${x - size} ${y}h${size * 2}`}
-        stroke="#fff"
-        strokeWidth={1.8}
-        animate={{ opacity: [1, 0.25, 1], scale: [1, 0.7, 1] }}
-        transition={{ duration: t(1.8), delay, repeat: Infinity, ease: "easeInOut" }}
-        style={{ transformOrigin: `${x}px ${y}px` }}
-    />
-);
-
-export const BriefIcon = () => (
-    <svg {...svgProps}>
-        <rect x="10" y="10" width="32" height="44" rx="4" fill={PURPLE} />
-        <rect x="14" y="16" width="24" height="34" rx="2" fill="#fff" />
-        <rect x="20" y="7" width="12" height="7" rx="2" fill={SKY} />
-        <path d="M18 24h10M18 30h15M18 36h11M18 42h8" strokeWidth={1.5} opacity={0.6} />
-        <path d="M47 27a8 8 0 0 0-4.6 14.5V45h9.2v-3.5A8 8 0 0 0 47 27z" fill={YELLOW} />
-        <path d="M43.6 48.5h6.8M44.8 52h4.4" />
-        <path d="M44 32.5c.6-1.4 1.8-2.3 3.2-2.5" stroke="#fff" strokeWidth={1.4} />
-        <Sparkle x={56} y={24} delay={0} />
-        <Sparkle x={52} y={14} size={2.2} delay={0.6} />
-    </svg>
-);
-
-export const DraftIcon = () => (
-    <svg {...svgProps}>
-        <rect x="11" y="9" width="34" height="46" rx="4" fill="#fff" />
-        <path d="M11 13a4 4 0 0 1 4-4h4v46h-4a4 4 0 0 1-4-4z" fill={PINK} />
-        <path d="M8 17h6M8 25h6M8 33h6M8 41h6" />
-        <path d="M24 20h15M24 27h15M24 34h10" strokeWidth={1.5} opacity={0.6} />
-        <path d="M34 48.5l15-18 4.2 3.5-15 18z" fill={ORANGE} />
-        <path d="M34 48.5l4.2 3.5-6 2.6z" fill="#FBE3C4" />
-        <path d="M32.6 54l-.9.4" strokeWidth={2.4} />
-        <path d="M49 30.5l2.3-2.7a2 2 0 0 1 2.8-.3l1.1.9a2 2 0 0 1 .3 2.8l-2.3 2.8z" fill={YELLOW} />
-        <Sparkle x={54} y={14} delay={0.3} />
-        <Sparkle x={57} y={44} size={2.2} delay={0.9} />
-    </svg>
-);
-
-export const RefineIcon = () => (
-    <svg {...svgProps}>
-        <rect x="9" y="7" width="32" height="42" rx="3.5" fill="#fff" />
-        <path d="M15 15h20M15 21h20M15 27h14M15 33h18M15 39h10" strokeWidth={1.5} opacity={0.6} />
-        <path d="M47.5 46.5l8.5 8.5" strokeWidth={5} />
-        <path d="M47.5 46.5l8.5 8.5" stroke={PURPLE} strokeWidth={2.4} />
-        <circle cx="39" cy="38" r="11" fill="#D9F1FF" />
-        <path d="M39 31.5l1.6 3.4 3.7.5-2.7 2.6.7 3.7-3.3-1.8-3.3 1.8.7-3.7-2.7-2.6 3.7-.5z" fill={YELLOW} />
-        <path d="M32.5 34.5a7.5 7.5 0 0 1 4-4.2" stroke="#fff" strokeWidth={1.6} />
-        <Sparkle x={52} y={13} delay={0.2} />
-        <Sparkle x={6} y={55} size={2.2} delay={0.8} />
-    </svg>
-);
-
-export const FinalIcon = () => (
-    <svg {...svgProps}>
-        <rect x="17" y="7" width="31" height="41" rx="3.5" fill="#E6DEF7" />
-        <rect x="10" y="13" width="31" height="41" rx="3.5" fill="#fff" />
-        <path d="M16 22h19M16 28h19M16 34h13M16 40h16" strokeWidth={1.5} opacity={0.6} />
-        <circle cx="45" cy="45" r="11" fill={PURPLE} />
-        <path d="M40 45.2l3.4 3.4 6.6-6.8" stroke="#fff" strokeWidth={2.6} />
-        <Sparkle x={55} y={14} delay={0.4} />
-        <Sparkle x={58} y={30} size={2.2} delay={1} />
-    </svg>
-);
+import { CropMarksIcon, GaugeIcon, PackageIcon, RefineIcon } from "../processIcons";
 
 /* ---------- section ---------- */
 
@@ -102,28 +19,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We convert artwork to CMYK color profiles, adjust image resolutions to 300+ DPI, and embed all required typography fonts.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <RefineIcon />,
     },
     {
         title: "Bleed & Trim Layout Setup",
         description:
             "Our team sets up exact page bleed areas, crop marks, and margin safe zones tailored to printer specifications.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <CropMarksIcon />,
     },
     {
         title: "Digital Asset Optimization",
         description:
             "We build optimized web and digital image assets (RGB ePUB, MOBI, and web previews) for fast rendering on mobile screens and e-readers.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <GaugeIcon />,
     },
     {
         title: "Final Quality Control & Package Delivery",
         description:
             "We run thorough preflight checks and deliver your master digital asset archive, fully formatted for printers and online retailers.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <PackageIcon />,
     },
 ];
 

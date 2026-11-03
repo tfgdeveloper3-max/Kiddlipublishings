@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { CalendarIcon, MegaphoneIcon, PosterIcon, RocketIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We set up advance reader copy digital distribution pipelines to gather early reviews from parent reviewers, teachers, and top book bloggers.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <CalendarIcon />,
     },
     {
         title: "Promotional Campaign Design",
         description:
             "Our team creates promotional graphics, discount countdown banners, press releases, and email newsletter copy tailored to your launch week goals.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <PosterIcon />,
     },
     {
         title: "Media Outreach & Influencer Blitz",
         description:
             "We pitch your book to niche family magazines, children's literature podcasts, and social media influencers to amplify your reach.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <MegaphoneIcon />,
     },
     {
         title: "Launch Week Execution & Momentum Management",
         description:
             "We coordinate limited-time pricing promotions, track sales spikes, and manage post-launch follow-up campaigns to maintain long-term rankings.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <RocketIcon />,
     },
 ];
 

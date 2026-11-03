@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { ColorBrushIcon, HiResImageIcon, PaletteIcon, StoryboardIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We explore artistic styles, color palettes, and mood boards to establish the perfect visual direction for your book.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <PaletteIcon />,
     },
     {
         title: "Storyboard Sketched Layouts",
         description:
             "Our illustrators create rough black-and-white storyboards to map out scene compositions, page flow, and character positions.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <StoryboardIcon />,
     },
     {
         title: "Color & Detail Rendering",
         description:
             "We apply rich, full-color rendering, adding lighting, textures, and charming details to every page illustration.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <ColorBrushIcon />,
     },
     {
         title: "High-Resolution Prepress Asset Delivery",
         description:
             "Final artwork files are delivered in high-resolution print and digital formats, ready for seamless layout formatting.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <HiResImageIcon />,
     },
 ];
 

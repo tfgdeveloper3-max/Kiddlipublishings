@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { ChartIcon, ContentKitIcon, GiftIcon, InfluencerIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We curate a targeted roster of parent bloggers, educators, and book creators whose followers align perfectly with your book's age group and genre.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <InfluencerIcon />,
     },
     {
         title: "Campaign Strategy & Content Kits",
         description:
             "Our team creates custom press kits, digital graphics, sample scripts, and promotional codes to equip creators for engaging video and post campaigns.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <ContentKitIcon />,
     },
     {
         title: "Product Seeding & Giveaways",
         description:
             "We coordinate physical book shipments, host collaborative giveaway contests, and direct live read-aloud events across creator channels.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <GiftIcon />,
     },
     {
         title: "Engagement & ROI Tracking",
         description:
             "We monitor social reach, track audience engagement, measure link clicks, and optimize ongoing creator partnerships for maximum visibility.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <ChartIcon />,
     },
 ];
 

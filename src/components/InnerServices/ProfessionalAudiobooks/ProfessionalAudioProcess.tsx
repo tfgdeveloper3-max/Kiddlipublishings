@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { AudioFileIcon, CastingIcon, MicrophoneIcon, MixerIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We provide voice sample auditions so you can choose the perfect narrator tone, accent, and style that best matches your story's characters.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <CastingIcon />,
     },
     {
         title: "Studio Recording & Direction",
         description:
             "Our professional voice actors record in high-end sound studios under expert vocal direction to capture every emotion and character voice accurately.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <MicrophoneIcon />,
     },
     {
         title: "Audio Editing & Sound Mixing",
         description:
             "We master the audio to remove noise, balance volume levels, and layer background soundscapes or musical scores for extra magic.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <MixerIcon />,
     },
     {
         title: "ACX & Retail Format Delivery",
         description:
             "Final audio files are delivered in high-bitrate MP3 formats pre-checked for compliance with Audible (ACX), Apple Books, and global retail platforms.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <AudioFileIcon />,
     },
 ];
 

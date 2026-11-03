@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { ChartIcon, ListingIcon, SearchIcon, TargetIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We analyze reader search trends and competitor metrics to select high-converting keywords and optimal sub-categories for maximum ranking potential.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <SearchIcon />,
     },
     {
         title: "Sales Page & Listing Optimization",
         description:
             "Our team rewrites your title, subtitle, bullet points, and description to maximize SEO search relevance and boost reader conversion rates.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <ListingIcon />,
     },
     {
         title: "Amazon Ad Campaign Setup",
         description:
             "We launch and manage targeted Amazon Advertising (AMS) sponsored campaigns to put your book in front of parents, teachers, and gift buyers.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <TargetIcon />,
     },
     {
         title: "Analytics & Ongoing Optimization",
         description:
             "We track click-through rates, advertising cost of sales (ACoS), and ranking performance, continually refining strategies for peak return on investment.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <ChartIcon />,
     },
 ];
 

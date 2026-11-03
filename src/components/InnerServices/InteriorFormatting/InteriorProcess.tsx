@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { DevicesIcon, LayoutIcon, ShieldCheckIcon, UploadIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We import your finalized text and assets, setting proper margins, page dimensions, trim sizes, and typography hierarchies.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <UploadIcon />,
     },
     {
         title: "Layout & Page Design",
         description:
             "Our designers carefully align illustrations with text, create custom headers/footers, and ensure optimal visual pacing throughout the book.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <LayoutIcon />,
     },
     {
         title: "Multi-Format Conversion",
         description:
             "We generate print-ready PDFs along with interactive, responsive digital formats (ePUB, MOBI/KDP) optimized for e-readers and tablets.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <DevicesIcon />,
     },
     {
         title: "Quality Assurance & Delivery",
         description:
             "We perform comprehensive device testing to verify layout perfection before delivering your publication-ready files.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <ShieldCheckIcon />,
     },
 ];
 

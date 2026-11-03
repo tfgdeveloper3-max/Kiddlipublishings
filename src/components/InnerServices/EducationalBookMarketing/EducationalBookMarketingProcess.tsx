@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { CurriculumIcon, EnvelopeIcon, TruckIcon, VideoCallIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We analyze your book’s core themes and develop printable teacher lesson plans, discussion guides, and student activity sheets.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <CurriculumIcon />,
     },
     {
         title: "Educator & School Librarian Outreach",
         description:
             "Our team direct-mails and emails targeted pitches to elementary school teachers, reading specialists, and media center directors.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <EnvelopeIcon />,
     },
     {
         title: "Virtual & In-Person Author Visit Setup",
         description:
             "We package and market your author presentation offerings, enabling schools to easily book you for live classroom readings and assemblies.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <VideoCallIcon />,
     },
     {
         title: "Educational Wholesaler Registration",
         description:
             "We list your book across major educational book suppliers and school catalog distributors for bulk institutional purchasing.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <TruckIcon />,
     },
 ];
 

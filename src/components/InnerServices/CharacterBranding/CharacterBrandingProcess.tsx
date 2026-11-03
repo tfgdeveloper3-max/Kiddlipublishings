@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { BrandKitIcon, MapIcon, PenToolIcon, StyleGuideIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We evaluate your storytelling goals, target reader demographic, and core values to define your brand voice, theme, and position in the market.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <MapIcon />,
     },
     {
         title: "Author Logo & Visual Identity Design",
         description:
             "Our design team creates custom author logos, color palettes, typography pairs, and branded social media template kits.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <PenToolIcon />,
     },
     {
         title: "Character Style Guide & Licensing Assets",
         description:
             "We compile comprehensive character style guides—including pose variations, logo placements, and color codes—ready for future series expansion and merchandise.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <StyleGuideIcon />,
     },
     {
         title: "Complete Brand Kit Delivery",
         description:
             "You receive a full brand guidelines document and master asset package to ensure visual consistency across all future publications and marketing.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <BrandKitIcon />,
     },
 ];
 

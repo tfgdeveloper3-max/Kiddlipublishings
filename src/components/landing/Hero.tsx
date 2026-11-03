@@ -179,7 +179,7 @@ export default function Hero({
             </div>
 
             {/* content */}
-            <div className="relative mx-auto grid max-w-[1680px] items-center gap-10 px-6 pb-[max(110px,calc(7.6vw+40px))] pt-[150px] sm:px-10 lg:min-h-[clamp(760px,52.8vw,1000px)] lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.9fr)] lg:content-center lg:gap-6 lg:px-12 lg:pt-[120px] xl:pl-[6.5vw] xl:pr-[5.8vw]">
+            <div className="relative mx-auto grid max-w-[1680px] items-center gap-10 px-6 pb-[max(110px,calc(7.6vw+40px))] pt-[150px] sm:px-10 lg:min-h-[clamp(760px,52.8vw,1000px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:content-center lg:gap-4 lg:px-12 lg:pt-[120px] xl:pl-[6.5vw] xl:pr-[3vw]">
                 {/* left */}
                 <div className="max-w-[760px]">
                     <h1 className="font-heading text-[38px] font-extrabold leading-[1.2] tracking-[-0.01em] text-white sm:text-[48px] lg:text-[clamp(36px,3.75vw,62px)]">
@@ -210,7 +210,7 @@ export default function Hero({
                 {/* right */}
                 <PopIn
                     delay={0.5}
-                    className="relative mx-auto w-full max-w-[440px] sm:max-w-[540px] lg:max-w-[680px] lg:justify-self-end xl:max-w-[760px] 2xl:max-w-[840px]"
+                    className="relative mx-auto w-full max-w-[460px] sm:max-w-[580px] lg:max-w-none lg:justify-self-end"
                 >
                     <Float distance={14} duration={4}>
                         <img
@@ -218,7 +218,7 @@ export default function Hero({
                             alt="Two kids reading a storybook together"
                             width={1240}
                             height={943}
-                            className="h-auto w-full select-none"
+                            className="h-auto w-full origin-center select-none lg:scale-[1.05] xl:scale-[1.08]"
                             draggable={false}
                         />
                     </Float>

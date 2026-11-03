@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { DevicesIcon, MapIcon, SoundWaveIcon, WandIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We review your manuscript and illustrations to identify natural opportunities for animation triggers, sound effects, and interactive elements.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <MapIcon />,
     },
     {
         title: "Motion & FX Integration",
         description:
             "Our digital developers add subtle frame animations, floating visual effects, and tap-response triggers directly into the eBook layout.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <WandIcon />,
     },
     {
         title: "Audio Sync & Read-Along Setup",
         description:
             "We synchronize voice narration with highlighted text pacing, allowing young readers to follow along effortlessly word-by-word.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <SoundWaveIcon />,
     },
     {
         title: "Device Testing & ePUB3 Delivery",
         description:
             "We test the interactive eBook across major e-readers and tablets, delivering fully compliant ePUB3 files ready for global distribution.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <DevicesIcon />,
     },
 ];
 

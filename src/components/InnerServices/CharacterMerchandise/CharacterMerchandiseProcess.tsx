@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { BlueprintIcon, RetailBoxIcon, ShieldCheckIcon, TShirtIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We analyze your readership and character appeal to identify high-demand product categories like plushies, apparel, stickers, or educational games.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <TShirtIcon />,
     },
     {
         title: "Product Conceptualization & 3D Tech Packs",
         description:
             "Our designers create detailed product turnarounds, material specs, and color guides (tech packs) ready for factory sample production.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <BlueprintIcon />,
     },
     {
         title: "Prototype Review & Safety Standard Check",
         description:
             "We guide you through reviewing manufacturer prototypes, ensuring strict adherence to child safety regulations and quality standards.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <ShieldCheckIcon />,
     },
     {
         title: "Packaging Design & Retail Store Assets",
         description:
             "We design branded product packaging, hangtags, and digital display assets to make your merchandise retail-ready for online and offline sales.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <RetailBoxIcon />,
     },
 ];
 

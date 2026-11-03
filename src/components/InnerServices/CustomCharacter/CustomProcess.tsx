@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { BrandKitIcon, ModelSheetIcon, ProfileCardIcon, TurnaroundIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We explore your character's backstory, personality, age group, key traits, and core role within your story.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <ProfileCardIcon />,
     },
     {
         title: "Conceptual Model Sheets",
         description:
             "Our artists sketch initial character model sheets exploring different poses, facial expressions, hairstyles, and outfits.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <ModelSheetIcon />,
     },
     {
         title: "Color & Turnaround Polishing",
         description:
             "We finalize character turnaround sheets featuring front, side, and back views alongside vibrant color palettes.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <TurnaroundIcon />,
     },
     {
         title: "Character Brand Asset Delivery",
         description:
             "You receive production-ready character sheets and vector files ready for full storybook illustration and branding.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <BrandKitIcon />,
     },
 ];
 

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { ChartIcon, GlobeIcon, LibraryIcon, TagIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We optimize your book's metadata, keywords, categories, and descriptions to ensure maximum discoverability across retail search engines.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <TagIcon />,
     },
     {
         title: "Global Channel Integration",
         description:
             "We connect your title to major international distribution networks, linking your book to thousands of online retailers and physical bookstores.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <GlobeIcon />,
     },
     {
         title: "Library & School Cataloging",
         description:
             "We submit your publication to library wholesale databases and educational suppliers, making it easy for schools and public libraries to stock your book.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <LibraryIcon />,
     },
     {
         title: "Sales Tracking & Royalties",
         description:
             "We monitor global sales performance and distribution channels, ensuring smooth reporting and earnings management for every copy sold.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <ChartIcon />,
     },
 ];
 

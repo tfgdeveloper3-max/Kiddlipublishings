@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { BrowserIcon, CartIcon, EnvelopeIcon, MagnetIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We design custom, child-friendly, and mobile-responsive website layouts that showcase your book series, author bio, and school visit offerings.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <BrowserIcon />,
     },
     {
         title: "Reader Magnet & Funnel Creation",
         description:
             "Our team creates engaging lead magnets—such as downloadable activity kits or coloring sheets—to encourage parents and teachers to subscribe.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <MagnetIcon />,
     },
     {
         title: "Email Automation & Newsletter Setup",
         description:
             "We configure automated welcome sequences, newsletter templates, and subscriber segmentation to keep your reader community engaged.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <EnvelopeIcon />,
     },
     {
         title: "Analytics & E-Commerce Launch",
         description:
             "We integrate direct book buy links, set up Google Analytics tracking, and launch your site with full technical optimization.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <CartIcon />,
     },
 ];
 

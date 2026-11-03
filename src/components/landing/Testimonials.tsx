@@ -6,12 +6,11 @@ const CLOUD = "M32.7 80.1A34.6 34.6 0 0 1 80.9 52.0A46.6 46.6 0 0 1 156.9 36.1A5
 const CLOUD_INNER = "M46.8 84.5A30.8 30.8 0 0 1 90.9 61.6A42.5 42.5 0 0 1 160.6 48.7A50.5 50.5 0 0 1 239.4 48.7A39.8 39.8 0 0 1 304.8 60.3A30.2 30.2 0 0 1 348.9 80.8A16.8 16.8 0 0 1 362.9 102.0A14.2 14.2 0 0 1 353.2 123.5A30.8 30.8 0 0 1 309.1 146.4A49.2 49.2 0 0 1 228.3 160.1A57.2 57.2 0 0 1 138.9 156.8A41.8 41.8 0 0 1 71.6 139.1A25.3 25.3 0 0 1 39.5 113.9A20.0 20.0 0 0 1 46.8 84.5Z";
 const TAIL = "M58 150L52 196L96 160Z";
 
-// Cloud geometry (viewBox 400 x 210). Text safe area = top 27% .. bottom 30% of height.
 const VB_W = 400;
 const VB_H = 210;
 const SAFE_TOP = 0.25;
 const SAFE_BOTTOM = 0.27;
-const SAFE_RATIO = 1 - SAFE_TOP - SAFE_BOTTOM; // 0.48
+const SAFE_RATIO = 1 - SAFE_TOP - SAFE_BOTTOM; 
 const BASE_RATIO = VB_H / VB_W;
 
 export interface Testimonial {
@@ -25,20 +24,20 @@ export interface Testimonial {
 const defaultTestimonials: Testimonial[] = [
     {
         quote: "Kiddli Publishings has completely transformed bedtime at our house! My son asks to read his favorite book every single night, and I love the positive values it teaches.",
-        name: "Renzo Eike's Mom",
-        avatar: "/images/Testimonials/testimonial-1.png",
+        name: "Olivia Bennett",
+        avatar: "/images/Testimonials/OliviaBennett.png",
         color: "#8BB625",
     },
     {
         quote: "The illustrations are breathtaking, and the stories capture children's imaginations so effortlessly. It's wonderful to find books that are both educational and deeply engaging.",
-        name: "Maxi Gina's Mom",
-        avatar: "/images/Testimonials/testimonial-2.png",
+        name: "Ethan Parker",
+        avatar: "/images/Testimonials/EthanParker.png",
         color: "#F26522",
     },
     {
         quote: "An absolute treasure for young readers! These books make wonderful gifts and have quickly become staples in our home library.",
-        name: "Ines Emilia's Mom",
-        avatar: "/images/Testimonials/testimonial-3.png",
+        name: "Sophia Mitchell",
+        avatar: "/images/Testimonials/SophiaMitchell.png",
         color: "#3C6178",
     },
 ];

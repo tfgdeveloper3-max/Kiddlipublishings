@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Reveal, softSpring, t } from "@/components/ui/Animated";
 import Clouds from "@/components/ui/Clouds";
+import { BoothIcon, PressKitIcon, SchoolIcon, ShopIcon } from "../processIcons";
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -102,28 +103,28 @@ const defaultSteps: ProcessStepCard[] = [
         description:
             "We design high-impact sales sheets, press releases, and wholesaler sell sheets detailing metadata, wholesale terms, and review highlights.",
         color: "#F8AE1A",
-        icon: <BriefIcon />,
+        icon: <PressKitIcon />,
     },
     {
         title: "Library & School Pitching",
         description:
             "Our team directly pitches acquisition librarians, media specialists, and school event coordinators with curated book recommendations.",
         color: "#D6297A",
-        icon: <DraftIcon />,
+        icon: <SchoolIcon />,
     },
     {
         title: "Independent Bookstore Coordination",
         description:
             "We contact indie bookstore buyers to arrange consignment agreements, stocking orders, and in-store reading events.",
         color: "#F96FA4",
-        icon: <RefineIcon />,
+        icon: <ShopIcon />,
     },
     {
         title: "Book Fair & Event Representation",
         description:
             "We submit your publication for showcase opportunities at national and international children’s book trade fairs and educational conventions.",
         color: "#8BB625",
-        icon: <FinalIcon />,
+        icon: <BoothIcon />,
     },
 ];
 
