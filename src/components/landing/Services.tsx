@@ -3,55 +3,103 @@ import { motion, type Variants } from "framer-motion";
 import serviceTop from "/images/ServiceTop.png";
 import { AnimateCss, EASE, Float, Reveal, Wiggle, softSpring, t } from "../ui/Animated";
 
-const iconProps = {
-    viewBox: "0 0 48 48",
+/* ---------- illustrated service icons (64x64, dark outline + flat colour fills) ---------- */
+
+const INK = "#1E1E1E";
+const PURPLE = "#6B34C4";
+const YELLOW = "#FFD335";
+const PINK = "#F96FA4";
+const ORANGE = "#F26522";
+const SKY = "#5BB5E8";
+
+const svgProps = {
+    viewBox: "0 0 64 64",
     fill: "none",
-    stroke: "#1E1E1E",
-    strokeWidth: 1.7,
+    stroke: INK,
+    strokeWidth: 1.8,
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
-    className: "h-full w-full",
+    className: "h-full w-full overflow-visible",
     "aria-hidden": true,
 };
 
-const BrainGearIcon = () => (
-    <svg {...iconProps}>
-        <path d="M21.5 4h5l.9 4.4a16 16 0 0 1 4.3 1.8l3.7-2.5 3.5 3.5-2.5 3.7a16 16 0 0 1 1.8 4.3l4.4.9v5l-4.4.9a16 16 0 0 1-1.8 4.3l2.5 3.7-3.5 3.5-3.7-2.5a16 16 0 0 1-4.3 1.8l-.9 4.4h-5l-.9-4.4a16 16 0 0 1-4.3-1.8l-3.7 2.5-3.5-3.5 2.5-3.7a16 16 0 0 1-1.8-4.3L4 26.5v-5l4.4-.9a16 16 0 0 1 1.8-4.3l-2.5-3.7 3.5-3.5 3.7 2.5a16 16 0 0 1 4.3-1.8z" />
-        <path d="M24 13.5c-1.6-1.4-4.6-1.4-5.8.6-2.4-.2-4 1.8-3.4 3.9-2 .8-2.4 3.4-.9 4.8-1.3 1.6-.6 4.2 1.4 4.8-.2 2.4 2 4 4.2 3.4 1 1.8 3.4 2.1 4.5.8z" />
-        <path d="M24 13.5c1.6-1.4 4.6-1.4 5.8.6 2.4-.2 4 1.8 3.4 3.9 2 .8 2.4 3.4.9 4.8 1.3 1.6.6 4.2-1.4 4.8.2 2.4-2 4-4.2 3.4-1 1.8-3.4 2.1-4.5.8z" />
-        <path d="M24 13.5v18.3M18.2 14.1c.6 1.4 2 2 3.2 1.8M14.8 18c1.3.9 3 .8 4 0M14 22.8c1.6.4 3-.3 3.6-1.4M15.4 27.6c1.4-.3 2.4-1.4 2.4-2.8M19.6 31c.2-1.3 1.2-2.2 2.4-2.4M29.8 14.1c-.6 1.4-2 2-3.2 1.8M33.2 18c-1.3.9-3 .8-4 0M34 22.8c-1.6.4-3-.3-3.6-1.4M32.6 27.6c-1.4-.3-2.4-1.4-2.4-2.8M28.4 31c-.2-1.3-1.2-2.2-2.4-2.4" />
+const Sparkle = ({ x, y, size = 3, delay = 0 }: { x: number; y: number; size?: number; delay?: number }) => (
+    <motion.path
+        d={`M${x} ${y - size}v${size * 2}M${x - size} ${y}h${size * 2}`}
+        stroke="#fff"
+        strokeWidth={1.8}
+        animate={{ opacity: [1, 0.25, 1], scale: [1, 0.7, 1] }}
+        transition={{ duration: t(1.8), delay, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: `${x}px ${y}px` }}
+    />
+);
+
+const STAR_PATH = "M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5L2.6 9.3l6.5-.9z";
+
+const PublishingIcon = () => (
+    <svg {...svgProps}>
+        <path d="M7 45c8.5-3 17-2.6 25 2 8-4.6 16.5-5 25-2v6c-8.5-3-17-2.6-25 2-8-4.6-16.5-5-25-2z" fill={PURPLE} />
+        <path d="M9 22c7.5-2.6 15.5-2 23 2.6v23c-7.5-4.6-15.5-5.2-23-2.6z" fill="#fff" />
+        <path d="M55 22c-7.5-2.6-15.5-2-23 2.6v23c7.5-4.6 15.5-5.2 23-2.6z" fill="#fff" />
+        <path d="M14 29c4.2-1 9-.6 13 1.2M14 34c4.2-1 9-.6 13 1.2M14 39c4.2-1 9-.6 13 1.2" strokeWidth={1.4} opacity={0.55} />
+        <path d="M50 29c-4.2-1-9-.6-13 1.2M50 34c-4.2-1-9-.6-13 1.2M50 39c-4.2-1-9-.6-13 1.2" strokeWidth={1.4} opacity={0.55} />
+        <path d="M32 23c-2.5-3-1-6.5.5-8.5" strokeDasharray="2 3" stroke="#fff" />
+        <path d={STAR_PATH} transform="translate(23.5 -1) scale(0.75)" fill={YELLOW} />
+        <Sparkle x={51} y={11} delay={0} />
+        <Sparkle x={12} y={13} size={2.4} delay={0.6} />
     </svg>
 );
 
-const HandsIcon = () => (
-    <svg {...iconProps}>
-        {[0, 90, 180, 270].map((deg) => (
-            <g key={deg} transform={`rotate(${deg} 24 24)`}>
-                <path d="M3 8.5h12v10H3" />
-                <path d="M6.5 8.5v10" />
-                <path d="M15 8.5h8.5a2.5 2.5 0 0 1 0 5H20" />
-                <path d="M20 13.5h4.5a2.5 2.5 0 0 1 0 5H15" />
-                <path d="M15 8.5c1.5-2 4-2.5 5.5-1" />
-            </g>
-        ))}
+const AuthorCareIcon = () => (
+    <svg {...svgProps}>
+        <path d="M11 12h33a6 6 0 0 1 6 6v15a6 6 0 0 1-6 6H25l-9 8v-8h-5a6 6 0 0 1-6-6V18a6 6 0 0 1 6-6z" fill="#fff" />
+        <path d="M27.5 33.5s-8.5-5-8.5-10.4a4.8 4.8 0 0 1 8.5-3 4.8 4.8 0 0 1 8.5 3c0 5.4-8.5 10.4-8.5 10.4z" fill={PINK} />
+        <path d="M22.6 22.2c.3-1.2 1.2-2 2.3-2.2" stroke="#fff" strokeWidth={1.4} />
+        <path d="M44.5 53.5l12-12 4 4-12 12z" fill={ORANGE} />
+        <path d="M44.5 53.5l4 4-6 2z" fill="#FBE3C4" />
+        <path d="M43.6 58.3l-1.1 1.2" strokeWidth={2.4} />
+        <path d="M56.5 41.5l2-2a2 2 0 0 1 2.8 0l1.2 1.2a2 2 0 0 1 0 2.8l-2 2z" fill={PINK} />
+        <Sparkle x={54} y={9} delay={0.3} />
+        <Sparkle x={57} y={20} size={2.2} delay={0.9} />
     </svg>
 );
 
-const BulbPuzzleIcon = () => (
-    <svg {...iconProps}>
-        <path d="M22 13c-6 0-9.5 4.4-9.5 9 0 3.4 1.9 5.6 3.5 7.3 1.1 1.2 1.8 2.5 1.8 4.2h8.4c0-1.7.7-3 1.8-4.2" />
-        <path d="M18.5 37h7.5M19 40.5h6.5M20.5 44h3.5" />
-        <path d="M26 8h4.2a2.6 2.6 0 1 1 5 0H39v4.6a2.6 2.6 0 1 1 0 5V22h-4.6a2.6 2.6 0 1 0-5 0H26v-4.4a2.6 2.6 0 1 0 0-5z" />
-        <path d="M12 9l1.8 1.8M7 21h2.6M8.8 14.5l2.2 1M36.2 27.8l-1.8-1.2M33.8 32.8l-1.4-1.4" />
+const IllustrationIcon = () => (
+    <svg {...svgProps}>
+        <path
+            d="M31 8C17 8 6 17.5 6 30c0 10.5 7.5 17.5 16.5 17.5 4 0 5.4-2.8 4.2-5.8-1.1-2.7.6-5.4 3.6-5.4H37c10.2 0 19-5.2 19-14C56 14 45 8 31 8z"
+            fill="#fff"
+        />
+        <circle cx="18" cy="27" r="4" fill={ORANGE} />
+        <circle cx="25.5" cy="17.5" r="4" fill={YELLOW} />
+        <circle cx="37.5" cy="16" r="4" fill={PINK} />
+        <circle cx="46.5" cy="23.5" r="4" fill={SKY} />
+        <circle cx="16.5" cy="37.5" r="3.2" fill={PURPLE} />
+        {/* brush */}
+        <path d="M37 59l-3.2-2.6 15-18.4 3.2 2.6z" fill={PURPLE} />
+        <path d="M48.8 38l3.2 2.6 2.4-3-3.2-2.6z" fill="#D9D3E8" />
+        <path d="M51.2 35l3.2 2.6c2.8-2 5-5.6 3.6-8.6-3.4-.6-6 2.6-6.8 6z" fill={ORANGE} />
+        <Sparkle x={9} y={10} delay={0.2} />
+        <Sparkle x={58} y={51} size={2.4} delay={0.8} />
     </svg>
 );
 
-const GradCapIcon = () => (
-    <svg {...iconProps}>
-        <path d="M3 18.5L24 10l21 8.5L24 27z" />
-        <path d="M12 22.5v8.2c0 2.8 5.4 5.3 12 5.3s12-2.5 12-5.3v-8.2" />
-        <path d="M24 18.5l-14 3.7v10.3" />
-        <path d="M8.2 32.5h3.6l.9 6.5H7.3z" />
+const EducationIcon = () => (
+    <svg {...svgProps}>
+        {/* books */}
+        <rect x="9" y="47" width="44" height="9" rx="2.5" fill={SKY} />
+        <path d="M14 49.5h34v4H14" fill="#fff" strokeWidth={1.4} />
+        <rect x="13" y="38" width="40" height="9" rx="2.5" fill={YELLOW} />
+        <path d="M18 40.5h30v4H18" fill="#fff" strokeWidth={1.4} />
+        {/* cap */}
+        <path d="M20 24v7.5c0 3 5.4 5.5 12 5.5s12-2.5 12-5.5V24l-12 5z" fill="#4A2590" />
+        <path d="M32 9l23 9.5L32 28 9 18.5z" fill={PURPLE} />
+        <path d="M24.5 16.5c2.6-1.2 5.2-1.8 7.5-1.8" stroke="#fff" strokeWidth={1.4} opacity={0.8} />
+        {/* tassel */}
+        <path d="M32 18.5l18 3.5v10" />
+        <path d="M48 32h4l1.2 5h-6.4z" fill={YELLOW} />
+        <Sparkle x={9} y={33} delay={0.4} />
+        <Sparkle x={57} y={9} size={2.4} delay={1} />
     </svg>
 );
 
@@ -96,7 +144,7 @@ const defaultServices: ServiceItem[] = [
     {
         title: "Creative Book Publishing",
         description: "We turn imaginative drafts into beautifully formatted children's books designed to spark curiosity, joy, and wonder in young readers.",
-        icon: <BrainGearIcon />,
+        icon: <PublishingIcon />,
         color: "#F26522",
         shape: ["62% 38% 55% 45% / 58% 48% 52% 42%", "50% 50% 60% 40% / 48% 58% 42% 52%"],
         size: "h-[120px] w-[128px] lg:h-[132px] lg:w-[140px]",
@@ -104,7 +152,7 @@ const defaultServices: ServiceItem[] = [
     {
         title: "Collaborative Author Care",
         description: "At Kiddli Publishings, we work hand-in-hand with authors to guide, polish, and support your storytelling journey every step of the way.",
-        icon: <HandsIcon />,
+        icon: <AuthorCareIcon />,
         color: "#F8AE1A",
         shape: ["42% 58% 45% 55% / 38% 42% 58% 62%", "52% 48% 55% 45% / 46% 38% 62% 54%"],
         size: "h-[124px] w-[114px] lg:h-[136px] lg:w-[124px]",
@@ -112,7 +160,7 @@ const defaultServices: ServiceItem[] = [
     {
         title: "Vibrant Story Illustration",
         description: "Our team brings your words to life with captivating artwork, colorful characters, and visually stunning layouts children will love.",
-        icon: <BulbPuzzleIcon />,
+        icon: <IllustrationIcon />,
         color: "#8BB625",
         shape: ["48% 52% 42% 58% / 55% 45% 55% 45%", "56% 44% 50% 50% / 45% 55% 45% 55%"],
         size: "h-[112px] w-[122px] lg:h-[122px] lg:w-[134px]",
@@ -120,7 +168,7 @@ const defaultServices: ServiceItem[] = [
     {
         title: "Educational & Fun Content",
         description: "We craft stories that blend valuable life lessons and foundational learning with fun adventures to help young minds grow.",
-        icon: <GradCapIcon />,
+        icon: <EducationIcon />,
         color: "#F96FA4",
         shape: ["46% 54% 42% 58% / 42% 48% 52% 58%", "54% 46% 52% 48% / 50% 42% 58% 50%"],
         size: "h-[124px] w-[114px] lg:h-[136px] lg:w-[124px]",
@@ -183,7 +231,7 @@ function ServiceCard({ item, index }: { item: ServiceItem; index: number }) {
                         animate={{ borderRadius: [item.shape[0], item.shape[1], item.shape[0]] }}
                         transition={{ duration: t(5), delay: index * 0.6, repeat: Infinity, ease: "easeInOut" }}
                     >
-                        <motion.div variants={iconVariants} className="h-[64px] w-[64px] lg:h-[72px] lg:w-[72px]">
+                        <motion.div variants={iconVariants} className="h-[74px] w-[74px] drop-shadow-[0_3px_0_rgba(0,0,0,0.12)] lg:h-[82px] lg:w-[82px]">
                             {item.icon}
                         </motion.div>
                     </motion.div>
