@@ -69,11 +69,6 @@ function Avatar({ src, name, color }: { src: string; name: string; color: string
     );
 }
 
-/**
- * Measures how tall (relative to its width) this cloud must be for its text
- * to fit, and reports it to the parent. The parent passes back one shared
- * ratio so every cloud in the row ends up the same height.
- */
 function useCloudSize(onRatio: (ratio: number) => void) {
     const boxRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
@@ -266,7 +261,7 @@ interface TestimonialsProps {
 
 export default function AboutTestimonials({
     label = "Testimonials",
-    title = "Why Families and Creators Trust Kiddli Publishings",
+    title = "Why 1,700+ Authors Trust Kiddli Publishings",
     testimonials = defaultTestimonials,
 }: TestimonialsProps) {
     const [ratios, setRatios] = useState<Record<number, number>>({});

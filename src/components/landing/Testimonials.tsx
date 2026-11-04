@@ -262,7 +262,7 @@ interface TestimonialsProps {
 
 export default function Testimonials({
     label = "Testimonials",
-    title = "What Parents Are Saying About Kiddli Publishings",
+    title = "What Authors Are Saying About Kiddli Publishings",
     testimonials = defaultTestimonials,
 }: TestimonialsProps) {
     const [ratios, setRatios] = useState<Record<number, number>>({});
