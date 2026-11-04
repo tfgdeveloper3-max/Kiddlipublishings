@@ -288,7 +288,6 @@ export default function Footer({
     socials = [
         { name: "Instagram", href: "#" },
         { name: "Facebook", href: "#" },
-        { name: "YouTube", href: "#" },
         { name: "X", href: "#" },
     ],
     onSubscribe,

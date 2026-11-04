@@ -2,6 +2,9 @@ import { useState, type CSSProperties, type ReactNode } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import serviceTop from "/images/ServiceTop.png";
 import { AnimateCss, EASE, Float, Reveal, Wiggle, softSpring, t } from "../ui/Animated";
+import { useLeadModal } from "@/components/LeadModal";
+
+/* ---------- illustrated icons (64x64, dark outline + flat brand fills) ---------- */
 
 const INK = "#1E1E1E";
 const PURPLE = "#6B34C4";
@@ -26,6 +29,7 @@ const svgProps = {
 
 const STAR_PATH = "M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5L2.6 9.3l6.5-.9z";
 
+/** Tiny 4-point sparkle that twinkles on its own. */
 const Sparkle = ({ x, y, size = 3, delay = 0 }: { x: number; y: number; size?: number; delay?: number }) => (
     <motion.path
         d={`M${x} ${y - size}v${size * 2}M${x - size} ${y}h${size * 2}`}
@@ -37,6 +41,7 @@ const Sparkle = ({ x, y, size = 3, delay = 0 }: { x: number; y: number; size?: n
     />
 );
 
+/** Full Book Creation & Publishing: open storybook with a star rising out of it */
 const PublishingIcon = () => (
     <svg {...svgProps}>
         <path d="M7 45c8.5-3 17-2.6 25 2 8-4.6 16.5-5 25-2v6c-8.5-3-17-2.6-25 2-8-4.6-16.5-5-25-2z" fill={PURPLE} />
@@ -51,6 +56,7 @@ const PublishingIcon = () => (
     </svg>
 );
 
+/** Artwork & Custom Design: paint palette with colour dots and a brush */
 const ArtworkIcon = () => (
     <svg {...svgProps}>
         <path
@@ -70,6 +76,7 @@ const ArtworkIcon = () => (
     </svg>
 );
 
+/** Animation & Digital Magic: screen playing a story, with a magic star */
 const AnimationIcon = () => (
     <svg {...svgProps}>
         <path d="M22 50h14M29 43v7" strokeWidth={2.6} />
@@ -114,7 +121,6 @@ const BrandingIcon = () => (
 
 function PopularRibbon({ label = "Most Popular" }: { label?: string }) {
     return (
-
         <div className="pointer-events-none absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2">
             <motion.div
                 initial={{ scale: 0, rotate: -8 }}
@@ -123,6 +129,7 @@ function PopularRibbon({ label = "Most Popular" }: { label?: string }) {
                 transition={{ ...softSpring(0.7, 0.45), delay: t(0.5) }}
                 className="relative"
             >
+                {/* folded tails */}
                 <span
                     aria-hidden="true"
                     className="absolute -left-[14px] top-[7px] -z-10 h-[30px] w-[26px] bg-[#4A2590]"
@@ -145,7 +152,6 @@ function PopularRibbon({ label = "Most Popular" }: { label?: string }) {
                         <path d={STAR_PATH} fill={YELLOW} stroke={INK} strokeWidth={1} strokeLinejoin="round" />
                     </motion.svg>
                     {label}
-                    {/* shimmer */}
                     <motion.span
                         aria-hidden="true"
                         className="absolute inset-y-0 w-[40%] -skew-x-12 bg-gradient-to-r from-transparent via-white/45 to-transparent"
@@ -158,8 +164,6 @@ function PopularRibbon({ label = "Most Popular" }: { label?: string }) {
         </div>
     );
 }
-
-/* ---------- doodles ---------- */
 
 const STAR_OUTLINE =
     "M30 4l7.5 15.6 17.1 2.4-12.4 12 3 17-15.2-8.1-15.2 8.1 3-17-12.4-12 17.1-2.4z";
@@ -189,8 +193,6 @@ const PaperPlane = () => (
     </svg>
 );
 
-/* ---------- data ---------- */
-
 export interface ServiceFeature {
     title: string;
     description: string;
@@ -204,7 +206,6 @@ export interface ServiceItem {
     color: string;
     shape: [string, string];
     size: string;
-    /** Shows the "Most Popular" ribbon on this card */
     popular?: boolean;
 }
 
@@ -366,6 +367,13 @@ const defaultServices: ServiceItem[] = [
     },
 ];
 
+/* ---------- layout helpers ---------- */
+
+/**
+ * Desktop: 3 per row on a 6-col grid (each card spans 2).
+ * A short last row is centered: 2 leftovers start at col 2, 1 leftover starts at col 3.
+ * Tablet: 2 per row; an odd last card spans both columns and is centered at card width.
+ */
 function placement(index: number, total: number) {
     const classes: string[] = [];
     const lgRemainder = total % 3;
@@ -481,6 +489,8 @@ function FeatureList({ features, color, cardIndex }: { features: ServiceFeature[
 /* ---------- card ---------- */
 
 function ServiceCard({ item, index, total }: { item: ServiceItem; index: number; total: number }) {
+    const { openLeadModal } = useLeadModal();
+
     return (
         <motion.article
             custom={index}
@@ -520,6 +530,33 @@ function ServiceCard({ item, index, total }: { item: ServiceItem; index: number;
             </p>
 
             <FeatureList features={item.features} color={item.color} cardIndex={index} />
+
+            {/* opens the lead form with this service already selected */}
+            <div className="mt-auto w-full pt-6">
+                <motion.button
+                    type="button"
+                    onClick={() => openLeadModal(item.title)}
+                    whileHover={{ y: -3 }}
+                    whileTap={{ y: 2, scale: 0.98 }}
+                    transition={softSpring(0.4, 0.4)}
+                    aria-label={`Get started with ${item.title}`}
+                    className="group/btn inline-flex w-full items-center justify-center gap-2.5 rounded-[16px] bg-[#FFD335] px-6 py-3.5 font-heading text-[16px] font-bold text-[#1E1E1E] shadow-[0_4px_0_#1E1E1E] transition-shadow hover:shadow-[0_7px_0_#1E1E1E] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/40 sm:w-auto"
+                >
+                    Get Started
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2.4}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-[18px] w-[18px] transition-transform duration-300 group-hover/btn:translate-x-1"
+                        aria-hidden="true"
+                    >
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                </motion.button>
+            </div>
         </motion.article>
     );
 }

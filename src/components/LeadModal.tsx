@@ -20,7 +20,25 @@ export const LEAD_MODAL_HASH = "#get-your-book";
 export const THANK_YOU_PATH = "/thank-you";
 export const FROM_KEY = "kiddli:lead-from";
 
-const LeadModalContext = createContext<{ openLeadModal: () => void; closeLeadModal: () => void } | null>(null);
+export const SERVICE_OPTIONS = [
+    "Full Book Creation & Publishing",
+    "Artwork & Custom Design",
+    "Animation & Digital Magic",
+    "Promotion & Book Launch",
+    "Author World & Branding",
+    "Not sure yet / General Inquiry",
+];
+
+function matchService(service: unknown): string {
+    if (typeof service !== "string" || !service.trim()) return "";
+    const norm = (x: string) => x.toLowerCase().replace(/\s+and\s+/g, " & ").replace(/\s+/g, " ").trim();
+    return SERVICE_OPTIONS.find((o) => norm(o) === norm(service)) ?? "";
+}
+
+const LeadModalContext = createContext<{
+    openLeadModal: (service?: string) => void;
+    closeLeadModal: () => void;
+} | null>(null);
 
 export function useLeadModal() {
     const ctx = useContext(LeadModalContext);
@@ -30,7 +48,11 @@ export function useLeadModal() {
 
 export function LeadModalProvider({ children }: { children: ReactNode }) {
     const [open, setOpen] = useState(false);
-    const openLeadModal = useCallback(() => setOpen(true), []);
+    const [presetService, setPresetService] = useState("");
+    const openLeadModal = useCallback((service?: string) => {
+        setPresetService(matchService(service));
+        setOpen(true);
+    }, []);
     const closeLeadModal = useCallback(() => setOpen(false), []);
 
     useEffect(() => {
@@ -38,6 +60,7 @@ export function LeadModalProvider({ children }: { children: ReactNode }) {
             const a = (e.target as HTMLElement | null)?.closest?.("a");
             if (a && a.getAttribute("href") === LEAD_MODAL_HASH) {
                 e.preventDefault();
+                setPresetService(matchService(a.getAttribute("data-service")));
                 setOpen(true);
             }
         };
@@ -48,7 +71,7 @@ export function LeadModalProvider({ children }: { children: ReactNode }) {
     return (
         <LeadModalContext.Provider value={{ openLeadModal, closeLeadModal }}>
             {children}
-            <LeadModal open={open} onClose={closeLeadModal} />
+            <LeadModal open={open} onClose={closeLeadModal} presetService={presetService} />
         </LeadModalContext.Provider>
     );
 }
@@ -66,14 +89,6 @@ type Errors = Partial<Record<FieldKey, string>>;
 const EMPTY: LeadValues = { name: "", email: "", phone_number: "", service: "", message: "" };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const SERVICE_OPTIONS = [
-    "Full Book Creation & Publishing",
-    "Artwork & Custom Design",
-    "Animation & Digital Magic",
-    "Promotion & Book Launch",
-    "Author World & Branding",
-    "Not sure yet / General Inquiry",
-];
 
 function validate(v: LeadValues): Errors {
     const e: Errors = {};
@@ -202,7 +217,7 @@ function Field({
 
 const STAR = "M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5L2.6 9.3l6.5-.9z";
 
-function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+function LeadModal({ open, onClose, presetService }: { open: boolean; onClose: () => void; presetService: string }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [values, setValues] = useState<LeadValues>(EMPTY);
@@ -250,6 +265,13 @@ function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
 
     useEffect(() => () => abortRef.current?.abort(), []);
 
+    // opened from a service card: pre-select that service
+    useEffect(() => {
+        if (!open || !presetService) return;
+        setValues((v) => ({ ...v, service: presetService }));
+        setErrors((e) => ({ ...e, service: undefined }));
+    }, [open, presetService]);
+
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const key = e.target.name as FieldKey;
         const next = { ...values, [key]: e.target.value };
@@ -284,7 +306,7 @@ function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
             try {
                 sessionStorage.setItem(FROM_KEY, from);
             } catch {
-                
+                /* storage blocked: router state still carries it */
             }
             setValues(EMPTY);
             setTouched({});
