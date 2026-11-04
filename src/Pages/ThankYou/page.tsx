@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import AnimatedButton from "@/components/ui/AnimatedButton";
-import Footer from "@/components/Footer";
 import { BouncyWords, Float, PopIn, Reveal, Twinkle, Wiggle, softSpring, t } from "@/components/ui/Animated";
 import { BookOutline, GridPattern, PencilDoodle, Rain, Stars } from "@/components/HeroDoodles";
 import { FROM_KEY, THANK_YOU_PATH } from "@/components/LeadModal";
@@ -176,7 +175,6 @@ export default function ThankYouPage() {
                     </div>
                 </div>
             </section>
-            <Footer />
         </main>
     );
 }
