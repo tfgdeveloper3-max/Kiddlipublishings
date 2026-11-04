@@ -270,8 +270,8 @@ interface FooterProps {
 
 export default function Footer({
     about = "Bringing magical stories, vibrant illustrations, and valuable life lessons to children around the world.",
-    address = "123 Storybook Lane, Creative City, CP 45678",
-    phone = "+00 (0) 123 456 789",
+    address = "11113 Kernville Rd, Kernville, CA 93238",
+    phone = "(760) 478-6269",
     email = "support@kiddlipublishings.com",
     usefulLinks = [
         { label: "Home", href: "/" },

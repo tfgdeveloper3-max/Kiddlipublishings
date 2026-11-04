@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { AnimateCss, BouncyWords, Float, PopIn, Reveal, Twinkle, Wiggle, t } from "@/components/ui/Animated";
 import { Arrows, BookOutline, Burst, Clouds, GridPattern, PencilDoodle, Rain, Stars } from "@/components/HeroDoodles";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import { useLeadModal } from "@/components/LeadModal";
 
 interface EducationalBookMarketingHeroProps {
     title?: string;
@@ -14,11 +15,11 @@ export default function EducationalBookMarketingHero({
     title = "School & Educational Book Marketing",
     description = "Welcome to Kiddli Publishing, where stories become powerful tools for learning. We connect your children's book directly with educators, schools, and educational platforms to bring your message into the classroom.",
     buttonLabel = "More About",
-    buttonHref = "#about-story",
 }: EducationalBookMarketingHeroProps) {
     const titleDelay = 0.3;
     const titleWords = title.split(" ").length;
-
+    const { openLeadModal } = useLeadModal();
+    
     return (
         <section
             id="about-hero"
@@ -95,7 +96,7 @@ export default function EducationalBookMarketingHero({
                 </Reveal>
 
                 <PopIn delay={titleDelay + titleWords * 0.1 + 0.5} className="mt-8 inline-block">
-                    <AnimatedButton href={buttonHref} variant="yellow" size="lg" idleWiggle>
+                    <AnimatedButton onClick={openLeadModal} variant="yellow" size="lg" idleWiggle>
                         {buttonLabel}
                     </AnimatedButton>
                 </PopIn>

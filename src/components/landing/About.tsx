@@ -5,6 +5,7 @@ import pencilImg from "/images/AboutPencil.png";
 import AnimatedButton from "../ui/AnimatedButton";
 import Clouds from "../ui/Clouds";
 import { AnimateCss, EASE, Float, PopIn, Reveal, t } from "../ui/Animated";
+import { useLeadModal } from "../LeadModal";
 
 const BulbIcon = () => (
     <svg viewBox="0 0 28 28" fill="none" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full" aria-hidden="true">
@@ -57,10 +58,10 @@ export default function About({
     title = "Discover Our Mission for Kiddli Publishings",
     description = "At Kiddli Publishings, we believe that every child deserves stories that not only entertain but also nurture their hearts and minds. Our mission is to publish heartwarming, beautifully illustrated books that encourage kindness, confidence, and a lifelong joy of reading. Every title we create is carefully crafted to spark meaningful conversations between children and the adults who guide them. ",
     buttonLabel = "More About",
-    buttonHref = "#about",
     image = mockupImg,
     imageAlt = "Robby the Rabbit and All You Need Is a Coloring Book, two Kiddli Publishings books",
 }: AboutProps) {
+    const { openLeadModal } = useLeadModal();
     return (
         <section id="about" className="relative isolate overflow-hidden bg-gradient-to-b from-brand-light to-brand-dark">
             <Clouds position="top" />
@@ -130,7 +131,7 @@ export default function About({
                     </Reveal>
 
                     <PopIn delay={0.5} className="mt-7 inline-block">
-                        <AnimatedButton href={buttonHref} variant="yellow" size="lg" idleWiggle>
+                        <AnimatedButton onClick={openLeadModal} variant="yellow" size="lg" idleWiggle>
                             {buttonLabel}
                         </AnimatedButton>
                     </PopIn>

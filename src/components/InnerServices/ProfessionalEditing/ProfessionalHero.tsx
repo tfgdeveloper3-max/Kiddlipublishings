@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { AnimateCss, BouncyWords, Float, PopIn, Reveal, Twinkle, Wiggle, t } from "@/components/ui/Animated";
 import { Arrows, BookOutline, Burst, Clouds, GridPattern, PencilDoodle, Rain, Stars } from "@/components/HeroDoodles";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import { useLeadModal } from "@/components/LeadModal";
 
 interface ProfessionalHeroProps {
     title?: string;
@@ -14,10 +15,10 @@ export default function ProfessionalHero({
     title = "Professional Editing & Manuscript Polishing",
     description = "Welcome to Kiddli Publishing, where every draft is refined into a publishing success. Our dedicated editors polish grammar, tone, and rhythm to ensure your story captures young minds effortlessly.",
     buttonLabel = "More About",
-    buttonHref = "#about-story",
 }: ProfessionalHeroProps) {
     const titleDelay = 0.3;
     const titleWords = title.split(" ").length;
+    const { openLeadModal } = useLeadModal();
 
     return (
         <section
@@ -95,7 +96,7 @@ export default function ProfessionalHero({
                 </Reveal>
 
                 <PopIn delay={titleDelay + titleWords * 0.1 + 0.5} className="mt-8 inline-block">
-                    <AnimatedButton href={buttonHref} variant="yellow" size="lg" idleWiggle>
+                    <AnimatedButton onClick={openLeadModal} variant="yellow" size="lg" idleWiggle>
                         {buttonLabel}
                     </AnimatedButton>
                 </PopIn>

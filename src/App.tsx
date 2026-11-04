@@ -30,6 +30,9 @@ import CharacterBrandingPage from "./Pages/InnerServices/CharacterBranding/page"
 import CharacterMerchandisePage from "./Pages/InnerServices/CharacterMerchandise/page";
 import PrintableActivitiesPage from "./Pages/InnerServices/PrintableActivities/page";
 import CharacterLicensingPage from "./Pages/InnerServices/CharacterLicensing/page";
+import ThankYouPage from "./Pages/ThankYou/page";
+import { LeadModalProvider } from "./components/LeadModal";
+import LiveChat from "./components/TawkChat";
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -44,40 +47,45 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <BrowserRouter>
         <ScrollToTop />
-        <div className="relative min-h-screen">
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/services" element={<ServicePage />} />
-            <Route path="/services/creative-writing" element={<CreativePage />} />
-            <Route path="/services/professional-editing" element={<EditingPage />} />
-            <Route path="/services/interior-formatting" element={<InteriorPage />} />
-            <Route path="/services/print-setup-isbn" element={<PrintPage />} />
-            <Route path="/services/worldwide-distribution" element={<WorldPage />} />
-            <Route path="/services/storybook-artwork" element={<FullColorPage />} />
-            <Route path="/services/character-design" element={<CustomCharacterPage />} />
-            <Route path="/services/cover-page-formatting" element={<EyeCatchingPage />} />
-            <Route path="/services/print-digital-assets" element={<PublishingReadyPage />} />
-            <Route path="/services/motion-production" element={<MotionPage />} />
-            <Route path="/services/book-trailers" element={<CinematicBookPage />} />
-            <Route path="/services/audiobooks-narration" element={<ProfessionalAudiobooksPage />} />
-            <Route path="/services/interactive-ebooks" element={<InteractiveMotionPage />} />
-            <Route path="/services/amazon-marketing" element={<AmazonBookMarketingPage />} />
-            <Route path="/services/book-launch" element={<StrategicBookLaunchPage />} />
-            <Route path="/services/social-media-influencers" element={<SocialMediaInfluencerPage />} />
-            <Route path="/services/author-websites" element={<ProfessionalAuthorWebsitesPage />} />
-            <Route path="/services/bookstore-outreach" element={<BookFairsPage />} />
-            <Route path="/services/school-marketing" element={<EducationalBookMarketingPage />} />
-            <Route path="/services/author-character-branding" element={<CharacterBrandingPage />} />
-            <Route path="/services/character-merchandise" element={<CharacterMerchandisePage />} />
-            <Route path="/services/educational-materials" element={<PrintableActivitiesPage />} />
-            <Route path="/services/character-licensing" element={<CharacterLicensingPage />} />
-            <Route path="/reviews" element={<ReviewPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-          </Routes>
-        </div>
+        <LeadModalProvider >
+          <div className="relative min-h-screen">
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/services" element={<ServicePage />} />
+              <Route path="/services/creative-writing" element={<CreativePage />} />
+              <Route path="/services/professional-editing" element={<EditingPage />} />
+              <Route path="/services/interior-formatting" element={<InteriorPage />} />
+              <Route path="/services/print-setup-isbn" element={<PrintPage />} />
+              <Route path="/services/worldwide-distribution" element={<WorldPage />} />
+              <Route path="/services/storybook-artwork" element={<FullColorPage />} />
+              <Route path="/services/character-design" element={<CustomCharacterPage />} />
+              <Route path="/services/cover-page-formatting" element={<EyeCatchingPage />} />
+              <Route path="/services/print-digital-assets" element={<PublishingReadyPage />} />
+              <Route path="/services/motion-production" element={<MotionPage />} />
+              <Route path="/services/book-trailers" element={<CinematicBookPage />} />
+              <Route path="/services/audiobooks-narration" element={<ProfessionalAudiobooksPage />} />
+              <Route path="/services/interactive-ebooks" element={<InteractiveMotionPage />} />
+              <Route path="/services/amazon-marketing" element={<AmazonBookMarketingPage />} />
+              <Route path="/services/book-launch" element={<StrategicBookLaunchPage />} />
+              <Route path="/services/social-media-influencers" element={<SocialMediaInfluencerPage />} />
+              <Route path="/services/author-websites" element={<ProfessionalAuthorWebsitesPage />} />
+              <Route path="/services/bookstore-outreach" element={<BookFairsPage />} />
+              <Route path="/services/school-marketing" element={<EducationalBookMarketingPage />} />
+              <Route path="/services/author-character-branding" element={<CharacterBrandingPage />} />
+              <Route path="/services/character-merchandise" element={<CharacterMerchandisePage />} />
+              <Route path="/services/educational-materials" element={<PrintableActivitiesPage />} />
+              <Route path="/services/character-licensing" element={<CharacterLicensingPage />} />
+              <Route path="/reviews" element={<ReviewPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/thank-you" element={<ThankYouPage />} />
+            </Routes>
+          </div>
+        </LeadModalProvider>
       </BrowserRouter>
-    </MotionConfig>
+      <LiveChat />
+    </MotionConfig >
+
   );
 }

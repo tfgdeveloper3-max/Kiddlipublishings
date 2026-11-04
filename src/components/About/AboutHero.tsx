@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import AnimatedButton from "../ui/AnimatedButton";
 import { AnimateCss, BouncyWords, Float, PopIn, Reveal, Twinkle, Wiggle, t } from "../ui/Animated";
 import { Arrows, BookOutline, Burst, Clouds, GridPattern, PencilDoodle, Rain, Stars } from "../HeroDoodles";
+import { useLeadModal } from "../LeadModal";
 
 interface AboutHeroProps {
     title?: string;
@@ -14,8 +15,8 @@ export default function AboutHero({
     title = "About Us",
     description = "Welcome to Kiddli Publishings, where every story opens a door to imagination. Meet the people and the passion behind the books your little ones love.",
     buttonLabel = "More About",
-    buttonHref = "#about-story",
 }: AboutHeroProps) {
+    const { openLeadModal } = useLeadModal();
     const titleDelay = 0.3;
     const titleWords = title.split(" ").length;
 
@@ -96,7 +97,7 @@ export default function AboutHero({
                 </Reveal>
 
                 <PopIn delay={titleDelay + titleWords * 0.1 + 0.5} className="mt-8 inline-block">
-                    <AnimatedButton href={buttonHref} variant="yellow" size="lg" idleWiggle>
+                    <AnimatedButton onClick={openLeadModal} variant="yellow" size="lg" idleWiggle>
                         {buttonLabel}
                     </AnimatedButton>
                 </PopIn>

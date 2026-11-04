@@ -3,66 +3,161 @@ import { AnimatePresence, motion, type Variants } from "framer-motion";
 import serviceTop from "/images/ServiceTop.png";
 import { AnimateCss, EASE, Float, Reveal, Wiggle, softSpring, t } from "../ui/Animated";
 
-const iconProps = {
-    viewBox: "0 0 48 48",
+const INK = "#1E1E1E";
+const PURPLE = "#6B34C4";
+const DEEP_PURPLE = "#4A2590";
+const YELLOW = "#FFD335";
+const ORANGE = "#F26522";
+const SKY = "#5BB5E8";
+const PINK = "#F96FA4";
+const ICE = "#D9F1FF";
+const LAVENDER = "#E6DEF7";
+
+const svgProps = {
+    viewBox: "0 0 64 64",
     fill: "none",
-    stroke: "#1E1E1E",
-    strokeWidth: 1.7,
+    stroke: INK,
+    strokeWidth: 1.8,
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
-    className: "h-full w-full",
+    className: "h-full w-full overflow-visible",
     "aria-hidden": true,
 };
 
-/* ---------- icons ---------- */
+const STAR_PATH = "M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5L2.6 9.3l6.5-.9z";
 
-const BrainGearIcon = () => (
-    <svg {...iconProps}>
-        <path d="M21.5 4h5l.9 4.4a16 16 0 0 1 4.3 1.8l3.7-2.5 3.5 3.5-2.5 3.7a16 16 0 0 1 1.8 4.3l4.4.9v5l-4.4.9a16 16 0 0 1-1.8 4.3l2.5 3.7-3.5 3.5-3.7-2.5a16 16 0 0 1-4.3 1.8l-.9 4.4h-5l-.9-4.4a16 16 0 0 1-4.3-1.8l-3.7 2.5-3.5-3.5 2.5-3.7a16 16 0 0 1-1.8-4.3L4 26.5v-5l4.4-.9a16 16 0 0 1 1.8-4.3l-2.5-3.7 3.5-3.5 3.7 2.5a16 16 0 0 1 4.3-1.8z" />
-        <path d="M24 13.5c-1.6-1.4-4.6-1.4-5.8.6-2.4-.2-4 1.8-3.4 3.9-2 .8-2.4 3.4-.9 4.8-1.3 1.6-.6 4.2 1.4 4.8-.2 2.4 2 4 4.2 3.4 1 1.8 3.4 2.1 4.5.8z" />
-        <path d="M24 13.5c1.6-1.4 4.6-1.4 5.8.6 2.4-.2 4 1.8 3.4 3.9 2 .8 2.4 3.4.9 4.8 1.3 1.6.6 4.2-1.4 4.8.2 2.4-2 4-4.2 3.4-1 1.8-3.4 2.1-4.5.8z" />
-        <path d="M24 13.5v18.3M18.2 14.1c.6 1.4 2 2 3.2 1.8M14.8 18c1.3.9 3 .8 4 0M14 22.8c1.6.4 3-.3 3.6-1.4M15.4 27.6c1.4-.3 2.4-1.4 2.4-2.8M19.6 31c.2-1.3 1.2-2.2 2.4-2.4M29.8 14.1c-.6 1.4-2 2-3.2 1.8M33.2 18c-1.3.9-3 .8-4 0M34 22.8c-1.6.4-3-.3-3.6-1.4M32.6 27.6c-1.4-.3-2.4-1.4-2.4-2.8M28.4 31c-.2-1.3-1.2-2.2-2.4-2.4" />
+const Sparkle = ({ x, y, size = 3, delay = 0 }: { x: number; y: number; size?: number; delay?: number }) => (
+    <motion.path
+        d={`M${x} ${y - size}v${size * 2}M${x - size} ${y}h${size * 2}`}
+        stroke="#fff"
+        strokeWidth={1.8}
+        animate={{ opacity: [1, 0.25, 1], scale: [1, 0.7, 1] }}
+        transition={{ duration: t(1.8), delay, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: `${x}px ${y}px` }}
+    />
+);
+
+const PublishingIcon = () => (
+    <svg {...svgProps}>
+        <path d="M7 45c8.5-3 17-2.6 25 2 8-4.6 16.5-5 25-2v6c-8.5-3-17-2.6-25 2-8-4.6-16.5-5-25-2z" fill={PURPLE} />
+        <path d="M9 22c7.5-2.6 15.5-2 23 2.6v23c-7.5-4.6-15.5-5.2-23-2.6z" fill="#fff" />
+        <path d="M55 22c-7.5-2.6-15.5-2-23 2.6v23c7.5-4.6 15.5-5.2 23-2.6z" fill="#fff" />
+        <path d="M14 29c4.2-1 9-.6 13 1.2M14 34c4.2-1 9-.6 13 1.2M14 39c4.2-1 9-.6 13 1.2" strokeWidth={1.4} opacity={0.55} />
+        <path d="M50 29c-4.2-1-9-.6-13 1.2M50 34c-4.2-1-9-.6-13 1.2M50 39c-4.2-1-9-.6-13 1.2" strokeWidth={1.4} opacity={0.55} />
+        <path d="M32 23c-2.5-3-1-6.5.5-8.5" strokeDasharray="2 3" stroke="#fff" />
+        <path d={STAR_PATH} transform="translate(23.5 -1) scale(0.75)" fill={YELLOW} />
+        <Sparkle x={51} y={11} delay={0} />
+        <Sparkle x={12} y={13} size={2.4} delay={0.6} />
     </svg>
 );
 
-const BulbPuzzleIcon = () => (
-    <svg {...iconProps}>
-        <path d="M22 13c-6 0-9.5 4.4-9.5 9 0 3.4 1.9 5.6 3.5 7.3 1.1 1.2 1.8 2.5 1.8 4.2h8.4c0-1.7.7-3 1.8-4.2" />
-        <path d="M18.5 37h7.5M19 40.5h6.5M20.5 44h3.5" />
-        <path d="M26 8h4.2a2.6 2.6 0 1 1 5 0H39v4.6a2.6 2.6 0 1 1 0 5V22h-4.6a2.6 2.6 0 1 0-5 0H26v-4.4a2.6 2.6 0 1 0 0-5z" />
-        <path d="M12 9l1.8 1.8M7 21h2.6M8.8 14.5l2.2 1M36.2 27.8l-1.8-1.2M33.8 32.8l-1.4-1.4" />
+const ArtworkIcon = () => (
+    <svg {...svgProps}>
+        <path
+            d="M31 8C17 8 6 17.5 6 30c0 10.5 7.5 17.5 16.5 17.5 4 0 5.4-2.8 4.2-5.8-1.1-2.7.6-5.4 3.6-5.4H37c10.2 0 19-5.2 19-14C56 14 45 8 31 8z"
+            fill="#fff"
+        />
+        <circle cx="18" cy="27" r="4" fill={ORANGE} />
+        <circle cx="25.5" cy="17.5" r="4" fill={PINK} />
+        <circle cx="37.5" cy="16" r="4" fill={PURPLE} />
+        <circle cx="46.5" cy="23.5" r="4" fill={SKY} />
+        <circle cx="16.5" cy="37.5" r="3.2" fill="#8BB625" />
+        <path d="M37 59l-3.2-2.6 15-18.4 3.2 2.6z" fill={PURPLE} />
+        <path d="M48.8 38l3.2 2.6 2.4-3-3.2-2.6z" fill={LAVENDER} />
+        <path d="M51.2 35l3.2 2.6c2.8-2 5-5.6 3.6-8.6-3.4-.6-6 2.6-6.8 6z" fill={ORANGE} />
+        <Sparkle x={9} y={10} delay={0.2} />
+        <Sparkle x={58} y={51} size={2.4} delay={0.8} />
     </svg>
 );
 
-const PlayScreenIcon = () => (
-    <svg {...iconProps}>
-        <rect x="5" y="9" width="36" height="26" rx="3" />
-        <path d="M20.5 16.5v11l9-5.5z" />
-        <path d="M17 41.5h12M23 35v6.5" />
-        <path d="M42 4v4M40 6h4M8 4.5l1.5 1.5" />
-        <circle cx="44" cy="15" r="1.2" />
+const AnimationIcon = () => (
+    <svg {...svgProps}>
+        <path d="M22 50h14M29 43v7" strokeWidth={2.6} />
+        <rect x="5" y="12" width="48" height="32" rx="4.5" fill={PURPLE} />
+        <rect x="9.5" y="16.5" width="39" height="23" rx="2" fill={ICE} />
+        <path d="M9.5 36l9-7 6 4.5 5-3.5 19 9.5v.5a2 2 0 0 1-2 2h-35a2 2 0 0 1-2-2z" fill="#8BB625" strokeWidth={1.5} />
+        <circle cx="29" cy="27" r="7" fill="#fff" strokeWidth={1.6} />
+        <path d="M26.8 23.6v6.8l5.6-3.4z" fill={PINK} strokeWidth={1.4} />
+        <path d={STAR_PATH} transform="translate(42 1) scale(0.75)" fill={YELLOW} />
+        <path d="M56 22l4-1.5M57 29h4" stroke="#fff" strokeWidth={2} />
+        <Sparkle x={8} y={6} delay={0.3} />
+        <Sparkle x={58} y={52} size={2.2} delay={0.9} />
     </svg>
 );
 
-const MegaphoneIcon = () => (
-    <svg {...iconProps}>
-        <path d="M8 18.5h7l17-8.5v27l-17-8.5H8a2.5 2.5 0 0 1-2.5-2.5v-5A2.5 2.5 0 0 1 8 18.5z" />
-        <path d="M15 18.5v10" />
-        <path d="M11 28.5l3 10h5.5l-2.5-10" />
-        <path d="M37 18c1.8 1.5 2.8 3.4 2.8 5.5s-1 4-2.8 5.5" />
-        <path d="M40.5 13c3 2.8 4.5 6.3 4.5 10.5S43.5 31.2 40.5 34" />
+const PromotionIcon = () => (
+    <svg {...svgProps}>
+        <path d="M9 25h9l22-12v38L18 39H9a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3z" fill={ORANGE} />
+        <path d="M14 39l3.5 12h6.5L21 39" fill="#fff" />
+        <ellipse cx="40" cy="32" rx="4.5" ry="19" fill="#fff" />
+        <path d="M50 22l7-4.5M51.5 32H59M50 42l7 4.5" stroke="#fff" strokeWidth={2.6} />
+        <path d="M11 29.5h4" stroke="#fff" strokeWidth={1.8} opacity={0.7} />
+        <path d={STAR_PATH} transform="translate(18 2) scale(0.55)" fill={YELLOW} />
+        <Sparkle x={56} y={8} delay={0.4} />
+        <Sparkle x={6} y={52} size={2.2} delay={1} />
     </svg>
 );
 
-const BadgeIcon = () => (
-    <svg {...iconProps}>
-        <circle cx="24" cy="19" r="13" />
-        <circle cx="24" cy="19" r="9" />
-        <path d="M24 13l1.8 3.7 4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4-2.9-2.8 4-.6z" />
-        <path d="M16.5 29.5L12.5 43l5.5-2.5 3.5 4.5 3-12.5" />
-        <path d="M31.5 29.5l4 13.5-5.5-2.5-3.5 4.5-3-12.5" />
+const BrandingIcon = () => (
+    <svg {...svgProps}>
+        <circle cx="19" cy="20" r="4.5" fill={PINK} />
+        <circle cx="46" cy="18" r="4" fill={YELLOW} />
+        <path d={STAR_PATH} transform="translate(22.5 3) scale(0.8)" fill={YELLOW} />
+        <path d="M10 30l22-8 22 8-22 8z" fill={DEEP_PURPLE} />
+        <path d="M10 30l22 8 22-8v20l-22 8-22-8z" fill={PURPLE} />
+        <path d="M32 38v20" strokeWidth={1.5} />
+        <rect x="38" y="44" width="11" height="6" rx="1.5" fill="#fff" strokeWidth={1.4} transform="rotate(-20 43.5 47)" />
+        <Sparkle x={58} y={30} size={2.6} delay={0.4} />
+        <Sparkle x={6} y={12} size={2.2} delay={1} />
     </svg>
 );
+
+function PopularRibbon({ label = "Most Popular" }: { label?: string }) {
+    return (
+
+        <div className="pointer-events-none absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2">
+            <motion.div
+                initial={{ scale: 0, rotate: -8 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ ...softSpring(0.7, 0.45), delay: t(0.5) }}
+                className="relative"
+            >
+                <span
+                    aria-hidden="true"
+                    className="absolute -left-[14px] top-[7px] -z-10 h-[30px] w-[26px] bg-[#4A2590]"
+                    style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%, 32% 50%)" }}
+                />
+                <span
+                    aria-hidden="true"
+                    className="absolute -right-[14px] top-[7px] -z-10 h-[30px] w-[26px] bg-[#4A2590]"
+                    style={{ clipPath: "polygon(0 0, 100% 0, 68% 50%, 100% 100%, 0 100%)" }}
+                />
+                {/* band */}
+                <span className="relative inline-flex items-center gap-1.5 overflow-hidden whitespace-nowrap rounded-[10px] bg-gradient-to-r from-brand-light to-brand-dark px-5 py-2 font-heading text-[12.5px] font-extrabold uppercase tracking-[0.08em] text-white shadow-[0_6px_16px_rgba(76,29,149,0.35)] ring-2 ring-white">
+                    <motion.svg
+                        viewBox="0 0 24 24"
+                        className="h-[15px] w-[15px]"
+                        animate={{ rotate: [0, 18, -18, 0], scale: [1, 1.2, 1] }}
+                        transition={{ duration: t(1.6), repeat: Infinity, repeatDelay: t(1.2), ease: "easeInOut" }}
+                        aria-hidden="true"
+                    >
+                        <path d={STAR_PATH} fill={YELLOW} stroke={INK} strokeWidth={1} strokeLinejoin="round" />
+                    </motion.svg>
+                    {label}
+                    {/* shimmer */}
+                    <motion.span
+                        aria-hidden="true"
+                        className="absolute inset-y-0 w-[40%] -skew-x-12 bg-gradient-to-r from-transparent via-white/45 to-transparent"
+                        initial={{ left: "-50%" }}
+                        animate={{ left: ["-50%", "130%"] }}
+                        transition={{ duration: t(1.4), repeat: Infinity, repeatDelay: t(2.2), ease: "easeInOut" }}
+                    />
+                </span>
+            </motion.div>
+        </div>
+    );
+}
 
 /* ---------- doodles ---------- */
 
@@ -109,6 +204,8 @@ export interface ServiceItem {
     color: string;
     shape: [string, string];
     size: string;
+    /** Shows the "Most Popular" ribbon on this card */
+    popular?: boolean;
 }
 
 const defaultServices: ServiceItem[] = [
@@ -143,7 +240,8 @@ const defaultServices: ServiceItem[] = [
                     "Get your books onto shelves and digital catalogs across global retail networks and libraries.",
             },
         ],
-        icon: <BrainGearIcon />,
+        icon: <PublishingIcon />,
+        popular: true,
         color: "#F26522",
         shape: ["62% 38% 55% 45% / 58% 48% 52% 42%", "50% 50% 60% 40% / 48% 58% 42% 52%"],
         size: "h-[120px] w-[128px] lg:h-[132px] lg:w-[140px]",
@@ -169,7 +267,7 @@ const defaultServices: ServiceItem[] = [
                 description: "High-resolution files perfectly optimized for both print production and digital viewing.",
             },
         ],
-        icon: <BulbPuzzleIcon />,
+        icon: <ArtworkIcon />,
         color: "#F8AE1A",
         shape: ["42% 58% 45% 55% / 38% 42% 58% 62%", "52% 48% 55% 45% / 46% 38% 62% 54%"],
         size: "h-[124px] w-[114px] lg:h-[136px] lg:w-[124px]",
@@ -197,7 +295,7 @@ const defaultServices: ServiceItem[] = [
                     "Digital books packed with interactive elements, animations, and sound effects for an immersive reading experience.",
             },
         ],
-        icon: <PlayScreenIcon />,
+        icon: <AnimationIcon />,
         color: "#8BB625",
         shape: ["48% 52% 42% 58% / 55% 45% 55% 45%", "56% 44% 50% 50% / 45% 55% 45% 55%"],
         size: "h-[112px] w-[122px] lg:h-[122px] lg:w-[134px]",
@@ -232,7 +330,7 @@ const defaultServices: ServiceItem[] = [
                 description: "Introduce your books to schools, teachers, and educational programs.",
             },
         ],
-        icon: <MegaphoneIcon />,
+        icon: <PromotionIcon />,
         color: "#F96FA4",
         shape: ["46% 54% 42% 58% / 42% 48% 52% 58%", "54% 46% 52% 48% / 50% 42% 58% 50%"],
         size: "h-[124px] w-[114px] lg:h-[136px] lg:w-[124px]",
@@ -261,20 +359,13 @@ const defaultServices: ServiceItem[] = [
                     "Explore opportunities to license your characters for broader commercial and media development.",
             },
         ],
-        icon: <BadgeIcon />,
+        icon: <BrandingIcon />,
         color: "#5BB5E8",
         shape: ["55% 45% 48% 52% / 50% 56% 44% 50%", "45% 55% 56% 44% / 56% 46% 54% 44%"],
         size: "h-[118px] w-[126px] lg:h-[130px] lg:w-[138px]",
     },
 ];
 
-/* ---------- layout helpers ---------- */
-
-/**
- * Desktop: 3 per row on a 6-col grid (each card spans 2).
- * A short last row is centered: 2 leftovers start at col 2, 1 leftover starts at col 3.
- * Tablet: 2 per row; an odd last card spans both columns and is centered at card width.
- */
 function placement(index: number, total: number) {
     const classes: string[] = [];
     const lgRemainder = total % 3;
@@ -399,11 +490,11 @@ function ServiceCard({ item, index, total }: { item: ServiceItem; index: number;
             whileHover="hover"
             viewport={{ once: true, amount: 0.2 }}
             style={{ "--c": item.color } as CSSProperties}
-            className={`flex flex-col items-center rounded-[28px] border-2 border-dashed border-[#E2E2E2] bg-white px-6 py-9 text-center transition-colors duration-300 hover:border-[var(--c)] sm:px-7 lg:col-span-2 lg:px-8 lg:py-10 ${placement(
-                index,
-                total,
-            )}`}
+            className={`relative flex flex-col items-center rounded-[28px] border-2 border-dashed bg-white px-6 py-9 text-center transition-colors duration-300 hover:border-[var(--c)] sm:px-7 lg:col-span-2 lg:px-8 lg:py-10 ${item.popular ? "border-[var(--c)] shadow-[0_18px_40px_rgba(242,101,34,0.14)]" : "border-[#E2E2E2]"
+                } ${placement(index, total)}`}
         >
+            {item.popular && <PopularRibbon />}
+
             {/* blob + icon */}
             <div className="flex h-[136px] items-center justify-center lg:h-[140px]">
                 <motion.div custom={index} variants={blobVariants}>
@@ -413,7 +504,7 @@ function ServiceCard({ item, index, total }: { item: ServiceItem; index: number;
                         animate={{ borderRadius: [item.shape[0], item.shape[1], item.shape[0]] }}
                         transition={{ duration: t(5), delay: index * 0.6, repeat: Infinity, ease: "easeInOut" }}
                     >
-                        <motion.div variants={iconVariants} className="h-[64px] w-[64px] lg:h-[72px] lg:w-[72px]">
+                        <motion.div variants={iconVariants} className="h-[74px] w-[74px] drop-shadow-[0_3px_0_rgba(0,0,0,0.12)] lg:h-[82px] lg:w-[82px]">
                             {item.icon}
                         </motion.div>
                     </motion.div>
@@ -511,7 +602,7 @@ export default function ServiceFeatures({
                     </h2>
                 </Reveal>
 
-                <div className="mx-auto mt-10 grid max-w-[480px] grid-cols-1 gap-6 sm:max-w-none sm:grid-cols-2 lg:mt-[54px] lg:grid-cols-6 lg:gap-7">
+                <div className="mx-auto mt-12 grid max-w-[480px] grid-cols-1 gap-8 sm:gap-6 sm:max-w-none sm:grid-cols-2 lg:mt-[54px] lg:grid-cols-6 lg:gap-7">
                     {services.map((item, i) => (
                         <ServiceCard key={item.title} item={item} index={i} total={services.length} />
                     ))}

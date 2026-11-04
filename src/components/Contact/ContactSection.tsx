@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent, type ReactNode } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { AnimateCss, EASE, Reveal, Twinkle, softSpring, t } from "../ui/Animated";
 import { Stars } from "@/components/HeroDoodles";
-import { ContactApiError, sendContactMessage, type ContactPayload } from "@/lib/contact";
-
-/* ---------- icons ---------- */
+import { LeadApiError, sendLead, type LeadPayload } from "@/data/Lead";
+import { FROM_KEY, THANK_YOU_PATH } from "@/components/LeadModal";
 
 const iconProps = {
     viewBox: "0 0 24 24",
@@ -40,6 +40,50 @@ const ArrowRight = () => (
     </svg>
 );
 
+export interface ContactValues {
+    name: string;
+    email: string;
+    phone_number: string;
+    service: string;
+    message: string;
+}
+
+type FieldKey = keyof ContactValues;
+type FormErrors = Partial<Record<FieldKey, string>>;
+
+const EMPTY: ContactValues = { name: "", email: "", phone_number: "", service: "", message: "" };
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const SERVICE_OPTIONS = [
+    "Full Book Creation & Publishing",
+    "Artwork & Custom Design",
+    "Animation & Digital Magic",
+    "Promotion & Book Launch",
+    "Author World & Branding",
+    "Not sure yet / General Inquiry",
+];
+
+const MESSAGE_HELPER = "Tell us about your book idea, target age group, story themes, or specific publishing goals! Our team will get back to you within 24 hours.";
+
+function validate(v: ContactValues): FormErrors {
+    const e: FormErrors = {};
+    if (v.name.trim().length < 2) e.name = "Please enter your name.";
+    if (!EMAIL_RE.test(v.email.trim())) e.email = "Please enter a valid email address.";
+    if (v.phone_number.replace(/\D/g, "").length < 7) e.phone_number = "Please enter a valid phone number.";
+    if (!v.service) e.service = "Please choose a service.";
+    if (v.message.trim().length < 10) e.message = "Your message should be at least 10 characters.";
+    return e;
+}
+
+function toLeadPayload(v: ContactValues): LeadPayload {
+    return {
+        name: v.name.trim(),
+        email: v.email.trim(),
+        phone_number: v.phone_number.trim(),
+        message: `Service: ${v.service}\n\n${v.message.trim()}`,
+    };
+}
+
 const fieldBase =
     "w-full rounded-[26px] border border-white/80 bg-white/55 px-6 font-body text-[16px] font-medium text-[#1E1E1E] caret-brand " +
     "backdrop-blur-xl backdrop-saturate-150 placeholder:font-normal placeholder:text-[#7C7C8A] " +
@@ -59,21 +103,25 @@ function Field({
     as = "input",
     type = "text",
     autoComplete,
+    inputMode,
     delay,
     suggestions,
+    options,
     helperText,
 }: {
-    id: keyof ContactPayload;
+    id: FieldKey;
     label: string;
     value: string;
     error?: string;
-    onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     onBlur: () => void;
-    as?: "input" | "textarea";
+    as?: "input" | "textarea" | "select";
     type?: string;
     autoComplete?: string;
+    inputMode?: "text" | "email" | "tel";
     delay: number;
     suggestions?: string[];
+    options?: string[];
     helperText?: string;
 }) {
     const errorId = `${id}-error`;
@@ -101,7 +149,41 @@ function Field({
             <label htmlFor={id} className="sr-only">
                 {label}
             </label>
-            {as === "textarea" ? (
+            {as === "select" ? (
+                <div className="relative">
+                    <select
+                        id={shared.id}
+                        name={shared.name}
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        aria-invalid={shared["aria-invalid"]}
+                        aria-describedby={shared["aria-describedby"]}
+                        className={`${fieldBase} h-[56px] cursor-pointer appearance-none pr-14 lg:h-[60px] ${value ? "" : "!font-normal !text-[#7C7C8A]"}${errorRing}`}
+                    >
+                        <option value="" disabled>
+                            {label}
+                        </option>
+                        {options?.map((o) => (
+                            <option key={o} value={o} className="font-medium text-[#1E1E1E]">
+                                {o}
+                            </option>
+                        ))}
+                    </select>
+                    <svg
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2.2}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="pointer-events-none absolute right-6 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-brand"
+                        aria-hidden="true"
+                    >
+                        <path d="M5.5 8l4.5 4.5L14.5 8" />
+                    </svg>
+                </div>
+            ) : as === "textarea" ? (
                 <textarea
                     {...shared}
                     rows={6}
@@ -112,6 +194,7 @@ function Field({
                     {...shared}
                     type={type}
                     autoComplete={autoComplete}
+                    inputMode={inputMode}
                     list={suggestions ? listId : undefined}
                     className={`${fieldBase} h-[56px] lg:h-[60px]${errorRing}`}
                 />
@@ -149,29 +232,6 @@ function Field({
     );
 }
 
-type FormErrors = Partial<Record<keyof ContactPayload, string>>;
-
-const EMPTY: ContactPayload = { name: "", email: "", subject: "", message: "" };
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-const SUBJECT_SUGGESTIONS = [
-    "Manuscript Submission & Review Inquiry",
-    "Custom Illustration & Artwork Consultation",
-    "Book Launch & Marketing Strategy",
-    "General Inquiries & Author Support",
-];
-
-const MESSAGE_HELPER = "Tell us about your book idea, target age group, story themes, or specific publishing goals! Our team will get back to you within 24 hours.";
-
-function validate(v: ContactPayload): FormErrors {
-    const e: FormErrors = {};
-    if (v.name.trim().length < 2) e.name = "Please enter your name.";
-    if (!EMAIL_RE.test(v.email.trim())) e.email = "Please enter a valid email address.";
-    if (v.subject.trim().length < 3) e.subject = "Please add a subject.";
-    if (v.message.trim().length < 10) e.message = "Your message should be at least 10 characters.";
-    return e;
-}
-
 export interface ContactInfo {
     title: string;
     value: string;
@@ -185,17 +245,15 @@ export interface ContactInfo {
 const defaultInfo: ContactInfo[] = [
     {
         title: "Phone",
-        value: "(800) 555-KIDD (5433)",
-        href: "tel:8005555433",
-        subText: "Mon–Fri from 9am to 6pm EST",
+        value: "(760) 478-6269",
+        href: "tel:+17604786269",
         color: "#7A4A12",
         icon: <PhoneIcon />,
         shape: "26px 30px 24px 32px / 30px 24px 32px 26px",
     },
     {
         title: "Location",
-        value: "1901 Thornridge Cir. Shiloh, Hawaii 81063",
-        href: "https://maps.google.com/?q=1901+Thornridge+Cir.+Shiloh,+Hawaii+81063",
+        value: "11113 Kernville Rd, Kernville, CA 93238",
         subText: "Kiddli Publishing Headquarters",
         color: "#3C6178",
         icon: <PinIcon />,
@@ -203,8 +261,8 @@ const defaultInfo: ContactInfo[] = [
     },
     {
         title: "Email",
-        value: "support@kiddlipublishing.com",
-        href: "mailto:support@kiddlipublishing.com",
+        value: "support@kiddlipublishings.com",
+        href: "mailto:support@kiddlipublishings.com",
         subText: "Online support 24/7",
         color: "#0B8A2F",
         icon: <MailIcon />,
@@ -255,40 +313,50 @@ interface ContactSectionProps {
     label?: string;
     title?: string;
     submitLabel?: string;
-    successMessage?: string;
     info?: ContactInfo[];
-    onSubmit?: (data: ContactPayload, signal: AbortSignal) => Promise<unknown>;
+    onSubmit?: (data: LeadPayload, signal: AbortSignal) => Promise<unknown>;
 }
 
 export default function ContactSection({
     label = "Contact Us",
     title = "Get in Touch with Our Publishing Team",
     submitLabel = "Send Message",
-    successMessage = "Thanks! Your message is on its way. Our team will get back to you within 24 hours.",
     info = defaultInfo,
-    onSubmit = sendContactMessage,
+    onSubmit = sendLead,
 }: ContactSectionProps) {
-    const [values, setValues] = useState<ContactPayload>(EMPTY);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [values, setValues] = useState<ContactValues>(EMPTY);
     const [errors, setErrors] = useState<FormErrors>({});
-    const [touched, setTouched] = useState<Partial<Record<keyof ContactPayload, boolean>>>({});
-    const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+    const [touched, setTouched] = useState<Partial<Record<FieldKey, boolean>>>({});
+    const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
     const [serverError, setServerError] = useState("");
     const [honeypot, setHoneypot] = useState("");
     const abortRef = useRef<AbortController | null>(null);
 
     useEffect(() => () => abortRef.current?.abort(), []);
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const key = e.target.name as keyof ContactPayload;
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const key = e.target.name as FieldKey;
         const next = { ...values, [key]: e.target.value };
         setValues(next);
         if (touched[key]) setErrors((prev) => ({ ...prev, [key]: validate(next)[key] }));
-        if (status !== "idle" && status !== "sending") setStatus("idle");
+        if (status === "error") setStatus("idle");
     };
 
-    const handleBlur = (key: keyof ContactPayload) => () => {
+    const handleBlur = (key: FieldKey) => () => {
         setTouched((prev) => ({ ...prev, [key]: true }));
         setErrors((prev) => ({ ...prev, [key]: validate(values)[key] }));
+    };
+
+    const goToThankYou = () => {
+        const from = location.pathname + location.search;
+        try {
+            sessionStorage.setItem(FROM_KEY, from);
+        } catch {
+
+        }
+        navigate(THANK_YOU_PATH, { state: { from } });
     };
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -297,7 +365,7 @@ export default function ContactSection({
 
         const found = validate(values);
         setErrors(found);
-        setTouched({ name: true, email: true, subject: true, message: true });
+        setTouched({ name: true, email: true, phone_number: true, service: true, message: true });
         if (Object.keys(found).length) {
             const first = Object.keys(found)[0];
             document.getElementById(first)?.focus();
@@ -305,16 +373,9 @@ export default function ContactSection({
         }
 
         if (honeypot) {
-            setStatus("sent");
+            goToThankYou();
             return;
         }
-
-        const payload: ContactPayload = {
-            name: values.name.trim(),
-            email: values.email.trim(),
-            subject: values.subject.trim(),
-            message: values.message.trim(),
-        };
 
         abortRef.current?.abort();
         const controller = new AbortController();
@@ -323,19 +384,15 @@ export default function ContactSection({
         setStatus("sending");
         setServerError("");
         try {
-            await onSubmit(payload, controller.signal);
-            setStatus("sent");
+            await onSubmit(toLeadPayload(values), controller.signal);
             setValues(EMPTY);
             setTouched({});
             setErrors({});
+            setStatus("idle");
+            goToThankYou();
         } catch (err) {
             if ((err as Error).name === "AbortError") return;
-            if (err instanceof ContactApiError) {
-                if (err.fieldErrors) setErrors((prev) => ({ ...prev, ...err.fieldErrors }));
-                setServerError(err.message);
-            } else {
-                setServerError("Message not sent. Please try again.");
-            }
+            setServerError(err instanceof LeadApiError ? err.message : "Message not sent. Please try again.");
             setStatus("error");
         }
     }
@@ -379,10 +436,13 @@ export default function ContactSection({
 
                     <div className="grid gap-4 sm:grid-cols-2 lg:gap-5">
                         <Field id="name" label="Your name" autoComplete="name" value={values.name} error={errors.name} onChange={handleChange} onBlur={handleBlur("name")} delay={0.1} />
-                        <Field id="email" label="Your email" type="email" autoComplete="email" value={values.email} error={errors.email} onChange={handleChange} onBlur={handleBlur("email")} delay={0.18} />
+                        <Field id="email" label="Your email" type="email" inputMode="email" autoComplete="email" value={values.email} error={errors.email} onChange={handleChange} onBlur={handleBlur("email")} delay={0.18} />
                     </div>
-                    <Field id="subject" label="Subject" value={values.subject} error={errors.subject} onChange={handleChange} onBlur={handleBlur("subject")} suggestions={SUBJECT_SUGGESTIONS} delay={0.26} />
-                    <Field id="message" label="Message" as="textarea" value={values.message} error={errors.message} onChange={handleChange} onBlur={handleBlur("message")} helperText={MESSAGE_HELPER} delay={0.34} />
+                    <div className="grid gap-4 sm:grid-cols-2 lg:gap-5">
+                        <Field id="phone_number" label="Phone number" type="tel" inputMode="tel" autoComplete="tel" value={values.phone_number} error={errors.phone_number} onChange={handleChange} onBlur={handleBlur("phone_number")} delay={0.24} />
+                        <Field id="service" label="Select a service" as="select" value={values.service} error={errors.service} onChange={handleChange} onBlur={handleBlur("service")} options={SERVICE_OPTIONS} delay={0.3} />
+                    </div>
+                    <Field id="message" label="Message" as="textarea" value={values.message} error={errors.message} onChange={handleChange} onBlur={handleBlur("message")} helperText={MESSAGE_HELPER} delay={0.36} />
 
                     <div className="flex flex-col items-center pt-4">
                         <motion.button
@@ -403,18 +463,7 @@ export default function ContactSection({
                         </motion.button>
 
                         <div aria-live="polite" className="min-h-[28px] pt-3 text-center">
-                            <AnimatePresence mode="wait">
-                                {status === "sent" && (
-                                    <motion.p
-                                        key="sent"
-                                        initial={{ opacity: 0, y: 8 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0 }}
-                                        className="font-body text-[15px] font-medium text-[#0B8A2F]"
-                                    >
-                                        {successMessage}
-                                    </motion.p>
-                                )}
+                            <AnimatePresence>
                                 {status === "error" && (
                                     <motion.p
                                         key="error"

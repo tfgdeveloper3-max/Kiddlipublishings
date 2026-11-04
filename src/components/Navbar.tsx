@@ -5,6 +5,7 @@ import AnimatedButton from "./ui/AnimatedButton";
 import { EASE, softSpring, t } from "./ui/Animated";
 import Logo from "/images/logo.png";
 import { serviceCategories, type ServiceCategory, type ServiceIconKey } from "@/data/ServiceMenu";
+import { useLeadModal } from "./LeadModal";
 
 export interface NavLink {
     label: string;
@@ -28,18 +29,14 @@ const defaultLinks: NavLink[] = [
     { label: "Contact", href: "/contact" },
 ];
 
-/* ---------- helpers ---------- */
 
 const normalizePath = (p: string) => (p.replace(/\/+$/, "") || "/").toLowerCase();
 
-/** "/" only on Home; "/services" also on "/services/anything" */
 function isLinkActive(href: string, path: string) {
     const linkPath = normalizePath(href.split("#")[0] || "/");
     if (linkPath === "/") return path === "/";
     return path === linkPath || path.startsWith(linkPath + "/");
 }
-
-/* ---------- small icons ---------- */
 
 const catIconPaths: Record<ServiceIconKey, ReactNode> = {
     book: (
@@ -99,9 +96,6 @@ const MiniStar = ({ color }: { color: string }) => (
     </svg>
 );
 
-/* ---------- desktop link ---------- */
-
-// "rest" = normal, "on" = current page / menu open, "hover" = mouse over
 const linkVariants: Variants = {
     rest: { y: 0, transition: { duration: t(0.3), ease: EASE } },
     on: { y: 0, transition: { duration: t(0.3), ease: EASE } },
@@ -114,7 +108,6 @@ const squiggleVariants: Variants = {
     hover: { pathLength: 1, opacity: 1, transition: { duration: t(0.4), ease: EASE } },
 };
 
-/** Yellow squiggle; follows the parent link's variant (rest / on / hover). */
 function Squiggle() {
     return (
         <svg viewBox="0 0 60 8" preserveAspectRatio="none" className="pointer-events-none absolute -bottom-1 left-0 h-[7px] w-full" aria-hidden="true">
@@ -151,8 +144,6 @@ function NavItem({ link, index, active }: { link: NavLink; index: number; active
     );
 }
 
-/* ---------- desktop services dropdown ---------- */
-
 function ServicesPanel({
     categories,
     activeCat,
@@ -171,7 +162,6 @@ function ServicesPanel({
 
     return (
         <div className="flex gap-4 p-4">
-            {/* level 1: categories */}
             <ul className="w-[300px] shrink-0 space-y-1 rounded-[20px] bg-[#F6F1FF] p-2" role="menu" aria-label="Service categories">
                 {categories.map((c, i) => {
                     const selected = i === activeCat;
@@ -207,7 +197,6 @@ function ServicesPanel({
                 })}
             </ul>
 
-            {/* level 2: services of the selected category */}
             <div className="flex min-w-0 flex-1 flex-col py-1">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -240,8 +229,8 @@ function ServicesPanel({
                                             aria-current={active ? "page" : undefined}
                                             style={{ ["--c" as string]: cat.color }}
                                             className={`group flex h-full items-center gap-2.5 rounded-[14px] border px-3 py-3 font-body text-[13.5px] leading-[1.35] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--c)] hover:shadow-[0_6px_14px_rgba(76,29,149,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 ${active
-                                                    ? "border-[var(--c)] bg-[#FAF7FF] font-semibold text-brand"
-                                                    : "border-[#EFEAF8] text-[#2B2B2B] hover:text-brand"
+                                                ? "border-[var(--c)] bg-[#FAF7FF] font-semibold text-brand"
+                                                : "border-[#EFEAF8] text-[#2B2B2B] hover:text-brand"
                                                 }`}
                                         >
                                             <span className="transition-transform duration-300 group-hover:rotate-[72deg] group-hover:scale-125">
@@ -268,7 +257,6 @@ function ServicesPanel({
                     </motion.div>
                 </AnimatePresence>
 
-                {/* footer pinned to the bottom so the column always fills the panel */}
                 <div className="mt-auto flex items-center justify-between gap-3 border-t border-dashed border-[#E6DEF7] pt-3">
                     <p className="font-body text-[13px] text-[#6B6B7B]">
                         <span className="font-heading font-extrabold text-brand">{total}</span> services to bring your book to life
@@ -288,8 +276,6 @@ function ServicesPanel({
         </div>
     );
 }
-
-/* ---------- mobile services accordion ---------- */
 
 function MobileServices({
     categories,
@@ -417,7 +403,6 @@ function MobileServices({
 export default function Navbar({
     links = defaultLinks,
     ctaLabel = "Get Your book",
-    ctaHref = "#",
     categories = serviceCategories,
 }: NavbarProps) {
     const [open, setOpen] = useState(false);
@@ -426,6 +411,8 @@ export default function Navbar({
     const [activeCat, setActiveCat] = useState(0);
     const closeTimer = useRef<number | undefined>(undefined);
     const navRef = useRef<HTMLElement>(null);
+
+    const { openLeadModal } = useLeadModal();
 
     const { pathname } = useLocation();
     const path = normalizePath(pathname);
@@ -560,7 +547,7 @@ export default function Navbar({
 
                 {/* Desktop CTA */}
                 <div className="hidden md:block">
-                    <AnimatedButton href={ctaHref} variant="purple" size="sm">
+                    <AnimatedButton onClick={openLeadModal} variant="purple" size="sm">
                         {ctaLabel}
                     </AnimatedButton>
                 </div>
@@ -649,7 +636,15 @@ export default function Navbar({
                                 );
                             })}
                         </ul>
-                        <AnimatedButton href={ctaHref} variant="purple" size="sm" className="mt-3 w-full">
+                        <AnimatedButton
+                            onClick={() => {
+                                closeAll();
+                                openLeadModal();
+                            }}
+                            variant="purple"
+                            size="sm"
+                            className="mt-3 w-full"
+                        >
                             {ctaLabel}
                         </AnimatedButton>
                     </motion.div>

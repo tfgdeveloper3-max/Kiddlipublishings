@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import AnimatedButton from "../ui/AnimatedButton";
 import { AnimateCss, BouncyWords, Float, PopIn, Reveal, Twinkle, Wiggle, t } from "../ui/Animated";
 import { Arrows, BookOutline, Burst, Clouds, GridPattern, PencilDoodle, Rain, Stars } from "../HeroDoodles";
+import { useLeadModal } from "../LeadModal";
 
 interface ServiceHeroProps {
     title?: string;
@@ -14,8 +15,8 @@ export default function ServiceHero({
     title = "Services",
     description = "Welcome to Kiddli Publishing, where every page turns into an extraordinary adventure. Our dedicated team helps bring creative visions to life with expert publishing solutions.",
     buttonLabel = "More About",
-    buttonHref = "/services",
 }: ServiceHeroProps) {
+    const { openLeadModal } = useLeadModal();
     const titleDelay = 0.3;
     const titleWords = title.split(" ").length;
 
@@ -96,7 +97,7 @@ export default function ServiceHero({
                 </Reveal>
 
                 <PopIn delay={titleDelay + titleWords * 0.1 + 0.5} className="mt-8 inline-block">
-                    <AnimatedButton href={buttonHref} variant="yellow" size="lg" idleWiggle>
+                    <AnimatedButton onClick={openLeadModal} variant="yellow" size="lg" idleWiggle>
                         {buttonLabel}
                     </AnimatedButton>
                 </PopIn>

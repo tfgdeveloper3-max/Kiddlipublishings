@@ -97,8 +97,8 @@ export default function Hero({
     titleStart = "Through Magical",
     titleHighlight = "Stories.",
     description = "Welcome to Kiddli Publishings, where every page turns into a new adventure for curious young minds. Our vibrant books are dedicated to inspiring a lifelong love for reading.",
-    buttonLabel = "Explore Books",
-    buttonHref = "#about",
+    buttonLabel = "Explore Services",
+    buttonHref = "/services",
 }: HeroProps) {
     const STAGGER = 0.1;
     const line1Count = titleLine1.split(" ").length;
