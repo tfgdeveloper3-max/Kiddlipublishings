@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import AnimatedButton from "@/components/ui/AnimatedButton";
-import Clouds from "@/components/ui/Clouds";
 import Footer from "@/components/Footer";
 import { BouncyWords, Float, PopIn, Reveal, Twinkle, Wiggle, softSpring, t } from "@/components/ui/Animated";
 import { BookOutline, GridPattern, PencilDoodle, Rain, Stars } from "@/components/HeroDoodles";
@@ -176,8 +175,6 @@ export default function ThankYouPage() {
                         </PopIn>
                     </div>
                 </div>
-
-                <Clouds position="bottom" />
             </section>
             <Footer />
         </main>
