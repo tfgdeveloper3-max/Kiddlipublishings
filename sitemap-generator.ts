@@ -8,6 +8,7 @@ const HOSTNAME = "https://kiddlipublishings.com";
 const mainPages: SitemapItemLoose[] = [
     { url: "/", changefreq: EnumChangefreq.WEEKLY, priority: 1.0 },
     { url: "/services", changefreq: EnumChangefreq.MONTHLY, priority: 0.9 },
+    { url: "/publishing-services", changefreq: EnumChangefreq.MONTHLY, priority: 0.9 },
     { url: "/about", changefreq: EnumChangefreq.MONTHLY, priority: 0.8 },
     { url: "/reviews", changefreq: EnumChangefreq.WEEKLY, priority: 0.8 },
     { url: "/contact", changefreq: EnumChangefreq.MONTHLY, priority: 0.7 },
@@ -50,7 +51,6 @@ const servicePages: SitemapItemLoose[] = servicePaths.map((slug) => ({
     priority: 0.8,
 }));
 
-/* ---------- legal pages ---------- */
 const legalPages: SitemapItemLoose[] = [
     { url: "/privacy-policy", changefreq: EnumChangefreq.YEARLY, priority: 0.3 },
     { url: "/terms-and-conditions", changefreq: EnumChangefreq.YEARLY, priority: 0.3 },

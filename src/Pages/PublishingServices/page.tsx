@@ -14,7 +14,6 @@ import book1 from "/images/Portfolio/Portfolio-4.png";
 import book2 from "/images/Portfolio/Portfolio-6.png";
 import book3 from "/images/Portfolio/Portfolio-5.png";
 
-
 const PHONE = "(760) 478-6269";
 const PHONE_HREF = "tel:+17604786269";
 const STAR = "M12 2.5l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.3l-5.8 3.1 1.1-6.5L2.6 9.3l6.5-.9z";
@@ -69,6 +68,218 @@ function SectionHeading({ label, title, text, dark = false }: { label: string; t
         </Reveal>
     );
 }
+
+const svgProps = {
+    viewBox: "0 0 64 64",
+    fill: "none",
+    stroke: "#1E1E1E",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    className: "h-full w-full overflow-visible",
+    "aria-hidden": true,
+};
+
+const Sparkle = ({ x, y, size = 3, delay = 0 }: { x: number; y: number; size?: number; delay?: number }) => (
+    <motion.path
+        d={`M${x} ${y - size}v${size * 2}M${x - size} ${y}h${size * 2}`}
+        stroke="#fff"
+        strokeWidth={1.8}
+        animate={{ opacity: [1, 0.25, 1], scale: [1, 0.7, 1] }}
+        transition={{ duration: t(1.8), delay, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: `${x}px ${y}px` }}
+    />
+);
+
+const bob = (delay = 0, dist = 2.5) => ({
+    animate: { y: [0, -dist, 0] },
+    transition: { duration: t(2.2), delay, repeat: Infinity, ease: "easeInOut" as const },
+});
+
+const PublishingIcon = () => (
+    <svg {...svgProps}>
+        <path d="M7 45c8.5-3 17-2.6 25 2 8-4.6 16.5-5 25-2v6c-8.5-3-17-2.6-25 2-8-4.6-16.5-5-25-2z" fill="#6B34C4" />
+        <path d="M9 22c7.5-2.6 15.5-2 23 2.6v23c-7.5-4.6-15.5-5.2-23-2.6z" fill="#fff" />
+        <path d="M55 22c-7.5-2.6-15.5-2-23 2.6v23c7.5-4.6 15.5-5.2 23-2.6z" fill="#fff" />
+        <path d="M14 29c4.2-1 9-.6 13 1.2M14 34c4.2-1 9-.6 13 1.2M14 39c4.2-1 9-.6 13 1.2M50 29c-4.2-1-9-.6-13 1.2M50 34c-4.2-1-9-.6-13 1.2M50 39c-4.2-1-9-.6-13 1.2" strokeWidth={1.4} opacity={0.55} />
+        <path d="M32 23c-2.5-3-1-6.5.5-8.5" strokeDasharray="2 3" stroke="#fff" />
+        <motion.g {...bob(0, 3)}>
+            <path d={STAR} transform="translate(23.5 -1) scale(0.75)" fill="#FFD335" />
+        </motion.g>
+        <Sparkle x={51} y={11} />
+        <Sparkle x={12} y={13} size={2.4} delay={0.6} />
+    </svg>
+);
+
+const ArtworkIcon = () => (
+    <svg {...svgProps}>
+        <path d="M31 8C17 8 6 17.5 6 30c0 10.5 7.5 17.5 16.5 17.5 4 0 5.4-2.8 4.2-5.8-1.1-2.7.6-5.4 3.6-5.4H37c10.2 0 19-5.2 19-14C56 14 45 8 31 8z" fill="#fff" />
+        {[
+            { cx: 18, cy: 27, r: 4, c: "#F26522" },
+            { cx: 25.5, cy: 17.5, r: 4, c: "#F96FA4" },
+            { cx: 37.5, cy: 16, r: 4, c: "#6B34C4" },
+            { cx: 46.5, cy: 23.5, r: 4, c: "#5BB5E8" },
+            { cx: 16.5, cy: 37.5, r: 3.2, c: "#8BB625" },
+        ].map((d, i) => (
+            <motion.circle
+                key={i}
+                cx={d.cx}
+                cy={d.cy}
+                r={d.r}
+                fill={d.c}
+                animate={{ scale: [1, 1.18, 1] }}
+                transition={{ duration: t(1.6), delay: i * 0.25, repeat: Infinity, repeatDelay: t(1), ease: "easeInOut" }}
+                style={{ transformOrigin: `${d.cx}px ${d.cy}px` }}
+            />
+        ))}
+        <motion.g animate={{ rotate: [0, -8, 0] }} transition={{ duration: t(2), repeat: Infinity, ease: "easeInOut" }} style={{ transformOrigin: "44px 50px" }}>
+            <path d="M37 59l-3.2-2.6 15-18.4 3.2 2.6z" fill="#6B34C4" />
+            <path d="M48.8 38l3.2 2.6 2.4-3-3.2-2.6z" fill="#E6DEF7" />
+            <path d="M51.2 35l3.2 2.6c2.8-2 5-5.6 3.6-8.6-3.4-.6-6 2.6-6.8 6z" fill="#F26522" />
+        </motion.g>
+        <Sparkle x={9} y={10} delay={0.2} />
+    </svg>
+);
+
+const AnimationIcon = () => (
+    <svg {...svgProps}>
+        <path d="M22 50h14M29 43v7" strokeWidth={2.6} />
+        <rect x="5" y="12" width="48" height="32" rx="4.5" fill="#6B34C4" />
+        <rect x="9.5" y="16.5" width="39" height="23" rx="2" fill="#D9F1FF" />
+        <path d="M9.5 36l9-7 6 4.5 5-3.5 19 9.5v.5a2 2 0 0 1-2 2h-35a2 2 0 0 1-2-2z" fill="#8BB625" strokeWidth={1.5} />
+        <motion.g animate={{ scale: [1, 1.12, 1] }} transition={{ duration: t(1.4), repeat: Infinity, ease: "easeInOut" }} style={{ transformOrigin: "29px 27px" }}>
+            <circle cx="29" cy="27" r="7" fill="#fff" strokeWidth={1.6} />
+            <path d="M26.8 23.6v6.8l5.6-3.4z" fill="#F96FA4" strokeWidth={1.4} />
+        </motion.g>
+        <motion.g {...bob(0.3, 3)}>
+            <path d={STAR} transform="translate(42 1) scale(0.75)" fill="#FFD335" />
+        </motion.g>
+        <Sparkle x={8} y={6} delay={0.3} />
+    </svg>
+);
+
+const PromotionIcon = () => (
+    <svg {...svgProps}>
+        <motion.g animate={{ rotate: [0, -6, 0] }} transition={{ duration: t(1.8), repeat: Infinity, ease: "easeInOut" }} style={{ transformOrigin: "20px 32px" }}>
+            <path d="M9 25h9l22-12v38L18 39H9a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3z" fill="#F26522" />
+            <path d="M14 39l3.5 12h6.5L21 39" fill="#fff" />
+            <ellipse cx="40" cy="32" rx="4.5" ry="19" fill="#fff" />
+        </motion.g>
+        {["M50 22l7-4.5", "M51.5 32H59", "M50 42l7 4.5"].map((d, i) => (
+            <motion.path
+                key={d}
+                d={d}
+                stroke="#fff"
+                strokeWidth={2.6}
+                animate={{ opacity: [0.2, 1, 0.2], x: [0, 2, 0] }}
+                transition={{ duration: t(1.2), delay: i * 0.15, repeat: Infinity, ease: "easeInOut" }}
+            />
+        ))}
+        <Sparkle x={56} y={8} delay={0.4} />
+    </svg>
+);
+
+const BrandingIcon = () => (
+    <svg {...svgProps}>
+        <motion.circle cx="19" cy="20" r="4.5" fill="#F96FA4" {...bob(0.2, 3)} />
+        <motion.circle cx="46" cy="18" r="4" fill="#FFD335" {...bob(0.5, 3)} />
+        <motion.g {...bob(0, 4)}>
+            <path d={STAR} transform="translate(22.5 3) scale(0.8)" fill="#FFD335" />
+        </motion.g>
+        <path d="M10 30l22-8 22 8-22 8z" fill="#4A2590" />
+        <path d="M10 30l22 8 22-8v20l-22 8-22-8z" fill="#6B34C4" />
+        <path d="M32 38v20" strokeWidth={1.5} />
+        <rect x="38" y="44" width="11" height="6" rx="1.5" fill="#fff" strokeWidth={1.4} transform="rotate(-20 43.5 47)" />
+        <Sparkle x={58} y={30} size={2.6} delay={0.4} />
+    </svg>
+);
+
+const KidLitIcon = () => (
+    <svg {...svgProps}>
+        <circle cx="17" cy="20" r="7" fill="#C98A55" />
+        <circle cx="47" cy="20" r="7" fill="#C98A55" />
+        <circle cx="17" cy="20" r="3" fill="#F6D2A8" strokeWidth={1.3} />
+        <circle cx="47" cy="20" r="3" fill="#F6D2A8" strokeWidth={1.3} />
+        <circle cx="32" cy="34" r="18" fill="#E0A46B" />
+        <ellipse cx="32" cy="40" rx="8.5" ry="6.5" fill="#F6D2A8" />
+        <motion.g animate={{ scaleY: [1, 1, 0.1, 1] }} transition={{ duration: t(3.2), times: [0, 0.9, 0.95, 1], repeat: Infinity }} style={{ transformOrigin: "32px 30px" }}>
+            <circle cx="25" cy="30" r="2" fill="#1E1E1E" stroke="none" />
+            <circle cx="39" cy="30" r="2" fill="#1E1E1E" stroke="none" />
+        </motion.g>
+        <path d="M30 37.5h4l-2 2.2z" fill="#1E1E1E" />
+        <path d="M29 42c1.8 1.6 4.2 1.6 6 0" strokeWidth={1.6} />
+        <motion.path d="M54 10s-4.5-2.7-4.5-5.6a2.4 2.4 0 0 1 4.5-1.5 2.4 2.4 0 0 1 4.5 1.5c0 2.9-4.5 5.6-4.5 5.6z" fill="#F96FA4" strokeWidth={1.4} {...bob(0, 3)} />
+        <Sparkle x={8} y={8} delay={0.5} />
+    </svg>
+);
+
+const RightsIcon = () => (
+    <svg {...svgProps}>
+        <path d="M32 5l21 7.5V27c0 13.5-8.8 22.8-21 28-12.2-5.2-21-14.5-21-28V12.5z" fill="#FFD335" />
+        <path d="M32 11l15 5.4V27c0 9.6-6.2 16.5-15 20.7-8.8-4.2-15-11.1-15-20.7V16.4z" fill="#fff" strokeWidth={1.4} />
+        <motion.path d="M27.5 27v-3a4.5 4.5 0 0 1 9 0v3" strokeWidth={2} animate={{ y: [0, -2.5, 0, 0] }} transition={{ duration: t(2.4), times: [0, 0.2, 0.4, 1], repeat: Infinity }} />
+        <rect x="24.5" y="27" width="15" height="12" rx="2.5" fill="#6B34C4" />
+        <circle cx="32" cy="33" r="1.6" fill="#fff" stroke="none" />
+        <Sparkle x={57} y={10} delay={0.3} />
+        <Sparkle x={7} y={52} size={2.2} delay={0.9} />
+    </svg>
+);
+
+const TeamIcon = () => (
+    <svg {...svgProps}>
+        <path d="M8 12h28a5 5 0 0 1 5 5v13a5 5 0 0 1-5 5H20l-8 7v-7H8a5 5 0 0 1-5-5V17a5 5 0 0 1 5-5z" fill="#6B34C4" />
+        <path d="M30 26h24a5 5 0 0 1 5 5v12a5 5 0 0 1-5 5h-2v7l-8-7H30a5 5 0 0 1-5-5V31a5 5 0 0 1 5-5z" fill="#fff" />
+        {[14, 22, 30].map((cx, i) => (
+            <motion.circle
+                key={cx}
+                cx={cx}
+                cy={23.5}
+                r={2.2}
+                fill="#fff"
+                stroke="none"
+                animate={{ y: [0, -2.5, 0] }}
+                transition={{ duration: t(0.9), delay: i * 0.15, repeat: Infinity, ease: "easeInOut" }}
+            />
+        ))}
+        <motion.path
+            d="M42 42.5s-5-3-5-6.2a2.7 2.7 0 0 1 5-1.6 2.7 2.7 0 0 1 5 1.6c0 3.2-5 6.2-5 6.2z"
+            fill="#F96FA4"
+            strokeWidth={1.4}
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ duration: t(1.2), repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "42px 38px" }}
+        />
+        <Sparkle x={56} y={10} delay={0.4} />
+    </svg>
+);
+
+const FormatsIcon = () => (
+    <svg {...svgProps}>
+        <rect x="6" y="14" width="22" height="32" rx="2.5" fill="#5BB5E8" />
+        <path d="M10 14v32" strokeWidth={1.4} />
+        <path d="M14 22h10M14 27h8" stroke="#fff" strokeWidth={1.6} />
+        <rect x="24" y="18" width="20" height="30" rx="3.5" fill="#6B34C4" />
+        <rect x="27" y="22" width="14" height="20" rx="1.2" fill="#fff" strokeWidth={1.4} />
+        <path d="M30 27h8M30 31h8M30 35h5" strokeWidth={1.3} opacity={0.6} />
+        <motion.g {...bob(0.2, 2.5)}>
+            <path d="M42 42v-4a9 9 0 0 1 18 0v4" strokeWidth={2.4} />
+            <rect x="39.5" y="40" width="6" height="10" rx="2.5" fill="#F26522" />
+            <rect x="56.5" y="40" width="6" height="10" rx="2.5" fill="#F26522" />
+        </motion.g>
+        {[0, 1, 2].map((k) => (
+            <motion.path
+                key={k}
+                d={`M${48 + k * 3} 56v-${2 + (k % 2) * 3}`}
+                stroke="#F26522"
+                strokeWidth={2}
+                animate={{ scaleY: [1, 1.8, 1] }}
+                transition={{ duration: t(0.8), delay: k * 0.15, repeat: Infinity, ease: "easeInOut" }}
+                style={{ transformOrigin: `${48 + k * 3}px 56px` }}
+            />
+        ))}
+        <Sparkle x={8} y={7} delay={0.5} />
+    </svg>
+);
 
 function LpHeader() {
     const { openLeadModal } = useLeadModal();
@@ -438,16 +649,12 @@ function Stats() {
     );
 }
 
-/* =========================================================
-   5. Services (each card opens the form with that service selected)
-   ========================================================= */
-
 const SERVICES = [
-    { title: "Full Book Creation & Publishing", text: "Writing, editing, formatting, ISBNs, and worldwide distribution, handled end to end.", color: "#F26522", emoji: "📖", popular: true },
-    { title: "Artwork & Custom Design", text: "Full-color storybook illustrations, lovable characters, and eye-catching covers.", color: "#F8AE1A", emoji: "🎨" },
-    { title: "Animation & Digital Magic", text: "2D & 3D animation, book trailers, audiobooks, and interactive eBooks.", color: "#8BB625", emoji: "🎬" },
-    { title: "Promotion & Book Launch", text: "Amazon optimization, launch campaigns, influencers, and school outreach.", color: "#F96FA4", emoji: "📣" },
-    { title: "Author World & Branding", text: "Author branding, merchandise, printable activities, and character licensing.", color: "#5BB5E8", emoji: "⭐" },
+    { title: "Full Book Creation & Publishing", text: "Writing, editing, formatting, ISBNs, and worldwide distribution, handled end to end.", color: "#F26522", icon: <PublishingIcon />, popular: true },
+    { title: "Artwork & Custom Design", text: "Full-color storybook illustrations, lovable characters, and eye-catching covers.", color: "#F8AE1A", icon: <ArtworkIcon /> },
+    { title: "Animation & Digital Magic", text: "2D & 3D animation, book trailers, audiobooks, and interactive eBooks.", color: "#8BB625", icon: <AnimationIcon /> },
+    { title: "Promotion & Book Launch", text: "Amazon optimization, launch campaigns, influencers, and school outreach.", color: "#F96FA4", icon: <PromotionIcon /> },
+    { title: "Author World & Branding", text: "Author branding, merchandise, printable activities, and character licensing.", color: "#5BB5E8", icon: <BrandingIcon /> },
 ];
 
 function Services() {
@@ -469,17 +676,20 @@ function Services() {
                     >
                         {s.popular && (
                             <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-[10px] bg-gradient-to-r from-brand-light to-brand-dark px-4 py-1.5 font-heading text-[12px] font-extrabold uppercase tracking-[0.08em] text-white ring-2 ring-white">
-                                ★ Most Popular
+                                <svg viewBox="0 0 24 24" className="mr-1 inline-block h-[13px] w-[13px] -translate-y-[1px]" aria-hidden="true">
+                                    <path d={STAR} fill="#FFD335" />
+                                </svg>
+                                Most Popular
                             </span>
                         )}
                         <motion.span
-                            className="grid h-[84px] w-[90px] place-items-center text-[38px]"
+                            className="grid h-[96px] w-[104px] place-items-center"
                             style={{ backgroundColor: s.color, borderRadius: "48% 52% 44% 56% / 54% 46% 54% 46%" }}
                             animate={{ borderRadius: ["48% 52% 44% 56% / 54% 46% 54% 46%", "56% 44% 52% 48% / 46% 54% 46% 54%", "48% 52% 44% 56% / 54% 46% 54% 46%"] }}
                             transition={{ duration: t(5), delay: i * 0.5, repeat: Infinity, ease: "easeInOut" }}
                             aria-hidden="true"
                         >
-                            {s.emoji}
+                            <span className="block h-[66px] w-[66px] drop-shadow-[0_3px_0_rgba(0,0,0,0.12)]">{s.icon}</span>
                         </motion.span>
                         <h3 className="mt-5 font-heading text-[20px] font-extrabold leading-tight text-black lg:text-[21px]">{s.title}</h3>
                         <p className="mt-2.5 font-body text-[15px] leading-[1.65] text-[#4A4A5A]">{s.text}</p>
@@ -499,32 +709,6 @@ function Services() {
         </section>
     );
 }
-
-/* =========================================================
-   Process (self-contained, so the LP doesn't depend on other files)
-   ========================================================= */
-
-const svgProps = {
-    viewBox: "0 0 64 64",
-    fill: "none",
-    stroke: "#1E1E1E",
-    strokeWidth: 1.8,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    className: "h-full w-full overflow-visible",
-    "aria-hidden": true,
-};
-
-const Sparkle = ({ x, y, size = 3, delay = 0 }: { x: number; y: number; size?: number; delay?: number }) => (
-    <motion.path
-        d={`M${x} ${y - size}v${size * 2}M${x - size} ${y}h${size * 2}`}
-        stroke="#fff"
-        strokeWidth={1.8}
-        animate={{ opacity: [1, 0.25, 1], scale: [1, 0.7, 1] }}
-        transition={{ duration: t(1.8), delay, repeat: Infinity, ease: "easeInOut" }}
-        style={{ transformOrigin: `${x}px ${y}px` }}
-    />
-);
 
 const BriefIcon = () => (
     <svg {...svgProps}>
@@ -617,10 +801,6 @@ function Process() {
     );
 }
 
-/* =========================================================
-   6. Portfolio
-   ========================================================= */
-
 function Portfolio() {
     const { openLeadModal } = useLeadModal();
     const books = [
@@ -630,7 +810,7 @@ function Portfolio() {
     ];
     return (
         <section className="relative overflow-hidden bg-white px-5 py-20 sm:px-10 lg:py-[100px]">
-            <div className="mx-auto grid max-w-[1200px] items-center gap-12 lg:grid-cols-2">
+            <div className="mx-auto grid max-w-[1320px] items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-6">
                 <div className="text-center lg:text-left">
                     <SectionHeadingLeft label="Our bookshelf" title="Stories We’ve Helped Bring to Life" />
                     <Reveal delay={0.2}>
@@ -664,10 +844,16 @@ function Portfolio() {
                     whileInView={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: t(1), ease: EASE }}
-                    className="mx-auto w-full max-w-[640px]"
+                    className="mx-auto w-full max-w-[600px] sm:max-w-[720px] lg:max-w-none"
                 >
                     <Float distance={10} duration={4}>
-                        <img src={mockupImg} alt="Two Kiddli Publishing children’s books" className="h-auto w-full select-none" loading="lazy" draggable={false} />
+                        <img
+                            src={mockupImg}
+                            alt="Two Kiddli Publishing children’s books"
+                            className="h-auto w-full origin-center select-none lg:scale-[1.15] xl:scale-[1.25]"
+                            loading="lazy"
+                            draggable={false}
+                        />
                     </Float>
                 </motion.div>
             </div>
@@ -684,15 +870,11 @@ function SectionHeadingLeft({ label, title }: { label: string; title: string }) 
     );
 }
 
-/* =========================================================
-   7. Why Kiddli
-   ========================================================= */
-
 const WHY = [
-    { title: "Kid-Lit Specialists", text: "Writers and illustrators who focus only on children’s books, age groups, and reading levels.", color: "#F26522", emoji: "🧸" },
-    { title: "Your Story, Your Rights", text: "Your manuscript and ideas stay yours. Ownership of commissioned work is set out clearly in your agreement.", color: "#6B34C4", emoji: "🛡️" },
-    { title: "One Dedicated Team", text: "A single project manager guides you from the first draft to launch day, with updates at every stage.", color: "#8BB625", emoji: "🤝" },
-    { title: "Print, eBook & Audio", text: "One project, every format: hardcover, paperback, eBook, audiobook, and interactive editions.", color: "#F96FA4", emoji: "📚" },
+    { title: "Kid-Lit Specialists", text: "Writers and illustrators who focus only on children’s books, age groups, and reading levels.", color: "#F26522", icon: <KidLitIcon /> },
+    { title: "Your Story, Your Rights", text: "Your manuscript and ideas stay yours. Ownership of commissioned work is set out clearly in your agreement.", color: "#6B34C4", icon: <RightsIcon /> },
+    { title: "One Dedicated Team", text: "A single project manager guides you from the first draft to launch day, with updates at every stage.", color: "#8BB625", icon: <TeamIcon /> },
+    { title: "Print, eBook & Audio", text: "One project, every format: hardcover, paperback, eBook, audiobook, and interactive editions.", color: "#F96FA4", icon: <FormatsIcon /> },
 ];
 
 function WhyKiddli() {
@@ -710,8 +892,8 @@ function WhyKiddli() {
                         transition={{ duration: t(0.7), ease: EASE, delay: t(i * 0.1) }}
                         className="rounded-[26px] bg-white p-7 shadow-[0_10px_30px_rgba(76,29,149,0.08)] ring-1 ring-[#EEE8F8]"
                     >
-                        <span className="grid h-[58px] w-[58px] place-items-center rounded-[18px] text-[28px]" style={{ backgroundColor: `${w.color}1F` }} aria-hidden="true">
-                            {w.emoji}
+                        <span className="grid h-[72px] w-[72px] place-items-center rounded-[22px]" style={{ backgroundColor: `${w.color}1F` }} aria-hidden="true">
+                            <span className="block h-[52px] w-[52px]">{w.icon}</span>
                         </span>
                         <h3 className="mt-5 font-heading text-[19px] font-extrabold text-black">{w.title}</h3>
                         <p className="mt-2 font-body text-[15px] leading-[1.7] text-[#4A4A5A]">{w.text}</p>
@@ -722,10 +904,6 @@ function WhyKiddli() {
         </section>
     );
 }
-
-/* =========================================================
-   8. FAQ
-   ========================================================= */
 
 const FAQS = [
     { q: "How long does it take to publish a children’s book?", a: "It depends on your book’s length, the number of illustrations, and the services you choose. Your proposal will include an estimated timeline for every stage, and your project manager keeps you updated along the way." },
@@ -785,10 +963,6 @@ function Faq() {
     );
 }
 
-/* =========================================================
-   9. Final CTA + mini footer
-   ========================================================= */
-
 function FinalCta() {
     const { openLeadModal } = useLeadModal();
     return (
@@ -847,15 +1021,13 @@ function FinalCta() {
     );
 }
 
-
 export default function PublishingServicesPage() {
     useEffect(() => {
-        const meta = document.createElement("meta");
-        meta.name = "robots";
-        meta.content = "noindex, follow";
-        document.head.appendChild(meta);
+        const prev = document.title;
         document.title = "Publish Your Children’s Book | Kiddli Publishing";
-        return () => meta.remove();
+        return () => {
+            document.title = prev;
+        };
     }, []);
 
     return (
