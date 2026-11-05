@@ -33,6 +33,12 @@ import CharacterLicensingPage from "./Pages/InnerServices/CharacterLicensing/pag
 import ThankYouPage from "./Pages/ThankYou/page";
 import { LeadModalProvider } from "./components/LeadModal";
 import LiveChat from "./components/TawkChat";
+import PrivacyPolicyPage from "./Pages/PrivacyPolicy/page";
+import TermsAndConditionsPage from "./Pages/TermsAndConditions/page";
+import RefundPolicyPage from "./Pages/RefundPolicy/page";
+import PublishingServicesPage from "./Pages/PublishingServices/page";
+
+const LP_PATHS = ["/publishing-services"];
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -42,14 +48,19 @@ function ScrollToTop() {
   return null;
 }
 
+function SiteNavbar() {
+  const { pathname } = useLocation();
+  return LP_PATHS.some((p) => pathname.startsWith(p)) ? null : <Navbar />;
+}
+
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <BrowserRouter>
         <ScrollToTop />
-        <LeadModalProvider >
+        <LeadModalProvider>
           <div className="relative min-h-screen">
-            <Navbar />
+            <SiteNavbar />
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<AboutPage />} />
@@ -79,13 +90,16 @@ export default function App() {
               <Route path="/services/character-licensing" element={<CharacterLicensingPage />} />
               <Route path="/reviews" element={<ReviewPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
+              <Route path="/refund-policy" element={<RefundPolicyPage />} />
+              <Route path="/publishing-services" element={<PublishingServicesPage />} />
               <Route path="/thank-you" element={<ThankYouPage />} />
             </Routes>
           </div>
         </LeadModalProvider>
       </BrowserRouter>
       <LiveChat />
-    </MotionConfig >
-
+    </MotionConfig>
   );
 }

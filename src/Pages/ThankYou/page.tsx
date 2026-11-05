@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import AnimatedButton from "@/components/ui/AnimatedButton";
@@ -88,13 +88,21 @@ export default function ThankYouPage() {
         try {
             stored = sessionStorage.getItem(FROM_KEY);
         } catch {
-            
+
         }
         const value = stateFrom || stored || "/";
         return value.startsWith("/") && value !== THANK_YOU_PATH ? value : "/";
     }, [location.state]);
 
     const cameFromHome = from === "/";
+
+    useEffect(() => {
+        const meta = document.createElement("meta");
+        meta.name = "robots";
+        meta.content = "noindex, nofollow";
+        document.head.appendChild(meta);
+        return () => meta.remove(); 
+    }, []);
 
     return (
         <main>
